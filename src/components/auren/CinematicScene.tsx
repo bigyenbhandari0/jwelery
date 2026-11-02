@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import handImage from '@/assets/hand-ring.jpg';
 import fallbackImage from '@/assets/heart-ring.jpg';
+import boxImage from '@/assets/ring-box.jpg';
+import squareImage from '@/assets/square-ring.jpg';
 
 const clamp = (v: number) => Math.max(0, Math.min(1, v));
 const smooth = (v: number) => { const t = clamp(v); return t*t*(3-2*t); };
@@ -11,6 +13,19 @@ export function CinematicScene() {
   const section = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const r = section.current?.getBoundingClientRect();
+      if (r) setProgress(clamp(-r.top / Math.max(1, r.height - window.innerHeight)));
+    };
+    const scroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', scroll, { passive: true });
+    window.addEventListener('resize', scroll);
+    update();
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); };
+  }, []);
   useEffect(() => {
     let stop = false;
     let cleanup = () => {};
@@ -88,7 +103,7 @@ export function CinematicScene() {
       const resize=()=> { if(!host.current)return; const w=host.current.clientWidth,h=host.current.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix(); };
       const observer=new ResizeObserver(resize);observer.observe(host.current);resize();
       const media=window.matchMedia('(prefers-reduced-motion: reduce)');
-      let target=0,current=0,raf=0,lastUi=-1,visible=true;
+      let target=0,current=0,raf=0,visible=true;
       const readScroll=()=> {const r=section.current?.getBoundingClientRect();if(r)target=clamp(-r.top/(r.height-window.innerHeight));};
       const visibility=new IntersectionObserver(([entry])=>{visible=entry?.isIntersecting ?? false;}); visibility.observe(section.current!);
       const render=()=> {
@@ -96,7 +111,7 @@ export function CinematicScene() {
         if(!visible)return;
         current=media.matches?target:current+(target-current)*.085;
         const p=current;
-        if(Math.abs(p-lastUi)>.002){setProgress(p);lastUi=p;}
+
         const enter=smooth((p-.12)/.24),pair=smooth((p-.43)/.12),zoom=smooth((p-.59)/.15),hand=smooth((p-.82)/.15);
         const mobile=camera.aspect<.8;
         scene.background=new T.Color().setRGB(.002,.002,.002).lerp(new T.Color('#f6f4f1'),enter*(1-pair)+hand);
@@ -125,7 +140,11 @@ export function CinematicScene() {
   return (
     <section ref={section} id="top" className={`three-story ${ready?'three-ready':''}`}>
       <div className="three-sticky">
-        {!ready&&<img className="three-fallback" src={fallbackImage} alt="Pink heart gemstone ring" />}
+        {!ready&&<div className="scene-fallback" style={{background:progress>.22&&progress<.45?'#f6f4f1':'#080808'}}>
+          <img src={fallbackImage} alt="Pink heart gemstone ring" style={{opacity:1-smooth((progress-.18)/.09),transform:`translate(-50%,-50%) scale(${1.1-progress*1.5}) rotate(${progress*35}deg)`}} />
+          <img src={boxImage} alt="Ring inside a burgundy presentation box" style={{opacity:smooth((progress-.2)/.07)*(1-smooth((progress-.43)/.06)),transform:`translate(-50%,-50%) scale(${.7+smooth((progress-.2)/.12)*.3})`,left:'65%'}} />
+          <img src={squareImage} alt="Eternity ring close-up" style={{opacity:smooth((progress-.47)/.07)*(1-smooth((progress-.83)/.08)),transform:`translate(-50%,-50%) scale(${.7+smooth((progress-.55)/.2)*.6}) rotate(${(progress-.65)*18}deg)`}} />
+        </div>}
         <div ref={host} className="three-canvas" role="img" aria-label="Animated silver heart ring rotating into an opening burgundy presentation box, followed by the Eternity ring" />
         <div className="three-intro" style={{opacity:1-smooth((progress-.08)/.09)}}><p className="eyebrow">AUREN — Fine Jewellery</p><h1>Rare by nature.</h1><a href="#collection" className="eyebrow link-line">Explore the collection</a></div>
         <div className="three-editorial" style={{opacity:boxText?smooth((progress-.27)/.05):0,transform:`translateY(${(1-smooth((progress-.27)/.06))*40}px)`}} aria-hidden={!boxText}><p className="eyebrow">An extraordinary gesture</p><h2>Luxury.<br/>With love.<br/><em>For you.</em></h2></div>

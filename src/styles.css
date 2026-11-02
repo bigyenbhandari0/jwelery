@@ -157,7 +157,7 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--font-sans); overflow-x: clip; -webkit-font-smoothing: antialiased; }
   :focus-visible { outline: 2px solid var(--champagne); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 }
@@ -257,4 +257,8 @@ button:disabled { cursor: default; }
 }
 @media (prefers-reduced-motion:reduce) { .three-story { height: 200svh; } }
 
-.three-story:not(.three-ready) { height: 100svh; }
+
+
+.scene-fallback { position:absolute; inset:0; transition:background .25s; }
+.scene-fallback img { position:absolute; top:46%; left:50%; width:min(72vw,640px); aspect-ratio:1; object-fit:contain; mask-image:radial-gradient(closest-side,black 72%,transparent); will-change:transform,opacity; }
+@media(max-width:767px) { .scene-fallback img { width:92vw; } }
