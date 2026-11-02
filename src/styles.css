@@ -190,3 +190,37 @@ button:disabled { cursor: default; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Scroll-directed campaign scenes: native scrolling, sticky product stages. */
+.campaign-opening { position: relative; height: 190svh; }
+.campaign-stage { position: sticky; top: 0; height: 100svh; min-height: 640px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.campaign-word { position: absolute; top: 18%; font-family: var(--font-display); font-size: clamp(8rem, 27vw, 28rem); line-height: 1; letter-spacing: -.06em; pointer-events: none; }
+.campaign-jewel { position: relative; width: min(74vw, 660px); will-change: transform, opacity; }
+.campaign-caption { position: absolute; bottom: 6%; left: 0; right: 0; text-align: center; padding: 0 1rem; }
+.campaign-scroll { position: absolute; bottom: 7%; right: 3%; writing-mode: vertical-rl; color: var(--paper); opacity: .5; }
+.campaign-scroll span { margin-top: 1rem; display: inline-block; animation: scroll-cue 2s ease-in-out infinite; }
+@keyframes scroll-cue { 50% { transform: translateY(8px); } }
+.ring-journey { height: 180svh; position: relative; margin-top: 5rem; }
+.ring-journey-stage { position: sticky; top: 0; height: 100svh; min-height: 580px; display: grid; place-items: center; overflow: hidden; }
+.journey-ring { width: min(72vw, 690px); position: relative; will-change: transform; }
+.journey-title { position: absolute; font-size: clamp(6rem, 20vw, 22rem); letter-spacing: -.06em; }
+.journey-caption { position: absolute; bottom: 7%; text-align: center; }
+.scene-reveal.reveal-ready { opacity: 0; transform: translateY(75px); transition: opacity 1s ease, transform 1.3s cubic-bezier(.16,1,.3,1); }
+.scene-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.hand-reveal.reveal-ready { transform: translateY(110px) scale(.94); }
+.hand-reveal.is-visible { transform: translateY(0) scale(1); }
+@media (max-width: 767px) {
+  #top.campaign-opening { min-height: 0; height: 150svh; }
+  .campaign-stage { min-height: 680px; }
+  .campaign-jewel { width: 95vw; margin-top: -4rem; }
+  .campaign-word { top: 26%; }
+  .campaign-caption { bottom: 9%; }
+  .campaign-scroll { display: none; }
+  .ring-journey { height: 145svh; }
+  .journey-ring { width: 96vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .campaign-opening, .ring-journey, #top.campaign-opening { height: auto; }
+  .campaign-stage, .ring-journey-stage { position: relative; }
+  .scene-reveal.reveal-ready { opacity: 1; transform: none; }
+}

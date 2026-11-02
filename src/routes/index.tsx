@@ -94,23 +94,21 @@ function Header() {
 function Opening() {
   const ref = useRef<HTMLElement>(null);
   const { p, m } = useProgress(ref);
-  const shift = (p - 0.5) * 2; // -1..1
+  const t = Math.min(1, Math.max(0, (p - 0.25) * 2));
   return (
-    <section ref={ref} id="top" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink text-paper">
-      <div className="glow-pink pointer-events-none absolute left-1/2 top-1/2 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2" />
-      <div className="relative w-[min(86vw,720px)]" style={{ transform: `translateY(${shift * 60 * m}px) scale(${1 + shift * 0.06 * m})` }}>
-        <img
-          src={heartRing}
-          alt="Silver ring set with a heart-shaped pink stone"
-          width={1024}
-          height={1024}
-          fetchPriority="high"
-          className="aspect-square w-full object-cover [mask-image:radial-gradient(closest-side,black_70%,transparent)]"
-        />
-      </div>
-      <div className="absolute inset-x-0 bottom-10 flex flex-col items-center gap-4 px-5 text-center md:bottom-14">
-        <h1 className="animate-rise font-display text-4xl italic md:text-6xl" style={{ animationDelay: ".3s" }}>Rare by nature.</h1>
-        <a href="#collection" className="eyebrow link-line text-paper/80">Explore the collection</a>
+    <section ref={ref} id="top" className="campaign-opening bg-ink text-paper">
+      <div className="campaign-stage">
+        <div className="glow-pink pointer-events-none absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2" style={{ opacity: 1 - t * m }} />
+        <p className="campaign-word" aria-hidden="true" style={{ opacity: 0.12 * (1 - t), transform: `translateX(${-t * 160 * m}px)` }}>ROSÉ</p>
+        <div className="campaign-jewel" style={{ transform: `translateY(${-t * 180 * m}px) scale(${1 + t * 0.65 * m}) rotate(${-t * 9 * m}deg)`, opacity: 1 - Math.max(0, t - 0.65) * 2.4 * m }}>
+          <img src={heartRing} alt="Silver ring set with a heart-shaped pink stone" width={1024} height={1024} fetchPriority="high" className="aspect-square w-full object-cover [mask-image:radial-gradient(closest-side,black_70%,transparent)]" />
+        </div>
+        <div className="campaign-caption" style={{ opacity: 1 - t * m, transform: `translateY(${-t * 50 * m}px)` }}>
+          <p className="eyebrow mb-3 text-paper/60">Collection No. 01 — Rosé Cœur</p>
+          <h1 className="font-display text-4xl italic md:text-6xl">Rare by nature.</h1>
+          <a href="#collection" className="eyebrow link-line mt-5 inline-block text-paper/80">Explore the collection</a>
+        </div>
+        <span className="campaign-scroll eyebrow" aria-hidden="true">Scroll to discover <span>↓</span></span>
       </div>
     </section>
   );
@@ -122,7 +120,7 @@ function Editorial() {
   return (
     <section ref={ref} id="story" className="overflow-hidden bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-40">
-        <div className="relative z-10 md:col-span-7">
+        <div className="relative z-10 md:col-span-7 scene-reveal">
           <p className="eyebrow mb-8 text-muted-foreground">AUREN — Fine Jewellery</p>
           <h2 className="font-display text-[clamp(2.25rem,6vw,6.75rem)] font-normal uppercase leading-[0.92] tracking-tight">
             Extraordinary<br />Jewellery.<br /><em className="font-normal">For you.</em>
@@ -132,7 +130,7 @@ function Editorial() {
           </p>
           <a href="#collection" className="eyebrow link-line mt-8 inline-block">Discover the collection</a>
         </div>
-        <div className="md:col-span-5">
+        <div className="md:col-span-5 scene-reveal">
           <img
             src={ringBox}
             alt="Open burgundy velvet box holding the pink heart ring"
@@ -140,7 +138,7 @@ function Editorial() {
             height={1024}
             loading="lazy"
             className="w-full"
-            style={{ transform: `translateY(${(0.5 - p) * 80 * m}px)` }}
+            style={{ transform: `translateY(${(0.5 - p) * 240 * m}px) rotate(${(0.5 - p) * -12 * m}deg) scale(${1 + (p - 0.5) * 0.2 * m})` }}
           />
         </div>
       </div>
@@ -162,7 +160,7 @@ function Collection() {
         </div>
         <div className="grid gap-16 md:grid-cols-2 md:gap-10">
           {pair.map((prod, i) => (
-            <article key={prod.id} className={i === 1 ? "md:mt-32" : ""}>
+            <article key={prod.id} className={`scene-reveal ${i === 1 ? "md:mt-32" : ""}`}>
               <button type="button" onClick={() => openProduct(prod.id)} className="group block w-full overflow-hidden" aria-label={`View ${prod.name}`}>
                 <img src={prod.image} alt={prod.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
               </button>
@@ -177,16 +175,12 @@ function Collection() {
           ))}
         </div>
       </div>
-      <div ref={ref} className="flex min-h-[90svh] items-center justify-center py-24">
-        <img
-          src={PRODUCTS.eternity.image}
-          alt="Close-up of the square-faced Eternity ring"
-          width={1024}
-          height={1024}
-          loading="lazy"
-          className="w-[min(86vw,760px)] [mask-image:radial-gradient(closest-side,black_75%,transparent)]"
-          style={{ transform: `scale(${0.85 + Math.min(p, 0.6) * 0.35 * m + (1 - m) * 0.15})` }}
-        />
+      <div ref={ref} className="ring-journey">
+        <div className="ring-journey-stage">
+          <p className="journey-title font-display" aria-hidden="true" style={{ opacity: Math.max(0, 0.22 - Math.abs(p - 0.5)), transform: `translateX(${(0.5 - p) * 200 * m}px)` }}>ETERNITY</p>
+          <img src={PRODUCTS.eternity.image} alt="Close-up of the square-faced Eternity ring" width={1024} height={1024} loading="lazy" className="journey-ring [mask-image:radial-gradient(closest-side,black_75%,transparent)]" style={{ transform: `scale(${1 + Math.sin(Math.max(0, Math.min(1, (p - 0.25) * 2)) * Math.PI) * 0.55 * m}) rotate(${(p - 0.5) * 24 * m}deg)` }} />
+          <div className="journey-caption"><p className="eyebrow text-paper/50">A study in permanence</p><p className="mt-3 font-display text-3xl italic">Made to hold a moment.</p></div>
+        </div>
       </div>
     </section>
   );
@@ -196,9 +190,9 @@ function EternityFeature() {
   const { openProduct } = useShop();
   const e = PRODUCTS.eternity;
   return (
-    <section className="bg-paper text-ink">
+    <section className="eternity-section bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-36">
-        <div className="order-2 md:order-1 md:col-span-5 md:pr-10">
+        <div className="scene-reveal order-2 md:order-1 md:col-span-5 md:pr-10">
           <p className="eyebrow text-muted-foreground">Signature piece</p>
           <h2 className="mt-4 font-display text-6xl font-normal italic md:text-8xl">Eternity</h2>
           <p className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
@@ -209,7 +203,7 @@ function EternityFeature() {
             View piece
           </button>
         </div>
-        <div className="order-1 md:order-2 md:col-span-6 md:col-start-7">
+        <div className="scene-reveal hand-reveal order-1 md:order-2 md:col-span-6 md:col-start-7">
           <img src={handRing} alt="Hand wearing the Eternity ring" width={896} height={1152} loading="lazy" className="w-full object-cover" />
         </div>
       </div>
@@ -261,6 +255,20 @@ function Footer() {
 }
 
 function Page() {
+  useEffect(() => {
+    const elements = document.querySelectorAll(".scene-reveal");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    elements.forEach((el) => { el.classList.add("reveal-ready"); observer.observe(el); });
+    return () => { observer.disconnect(); elements.forEach((el) => el.classList.remove("reveal-ready")); };
+  }, []);
   return (
     <>
       <Header />
