@@ -55,7 +55,7 @@ export const PRODUCTS = {
 } satisfies Record<string, Product>;
 
 export const getProduct = (id: string): Product | undefined =>
-  (PRODUCTS as Record<string, Product>)[id];
+  Object.hasOwn(PRODUCTS, id) ? (PRODUCTS as Record<string, Product>)[id] : undefined;
 
 export const SIZES = ["5", "6", "7", "8", "9", "10"];
 
@@ -80,6 +80,22 @@ type ShopCtx = {
 const Ctx = createContext<ShopCtx | null>(null);
 const KEY = "auren-bag";
 
+export function restoreBag(raw: string): BagItem[] {
+  try {
+    const data: unknown = JSON.parse(raw);
+    if (!Array.isArray(data)) return [];
+    const result: BagItem[] = [];
+    for (const item of data) {
+      if (!item || typeof item.id !== "string" || !getProduct(item.id) ||
+          !SIZES.includes(item.size) || !Number.isInteger(item.qty) || item.qty < 1) continue;
+      const existing = result.find((i) => i.id === item.id && i.size === item.size);
+      if (existing) existing.qty = Math.min(9, existing.qty + item.qty);
+      else result.push({ id: item.id, size: item.size, qty: Math.min(9, item.qty) });
+    }
+    return result;
+  } catch { return []; }
+}
+
 export function ShopProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<BagItem[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -89,21 +105,24 @@ export function ShopProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) setItems((JSON.parse(raw) as BagItem[]).filter((i) => getProduct(i.id)));
+      if (raw) setItems(restoreBag(raw));
     } catch {
       /* ignore */
     }
     setLoaded(true);
   }, []);
   useEffect(() => {
-    if (loaded) localStorage.setItem(KEY, JSON.stringify(items));
+    if (loaded) {
+      try { localStorage.setItem(KEY, JSON.stringify(items)); } catch { /* Shopping still works when storage is unavailable. */ }
+    }
   }, [items, loaded]);
 
   const add = (id: string, size: string, qty: number) =>
     setItems((prev) => {
+      if (!getProduct(id) || !SIZES.includes(size) || !Number.isInteger(qty) || qty < 1) return prev;
       const ex = prev.find((i) => i.id === id && i.size === size);
       if (ex) return prev.map((i) => (i === ex ? { ...i, qty: Math.min(9, i.qty + qty) } : i));
-      return [...prev, { id, size, qty }];
+      return [...prev, { id, size, qty: Math.min(9, qty) }];
     });
   const setQty = (id: string, size: string, qty: number) =>
     setItems((prev) =>

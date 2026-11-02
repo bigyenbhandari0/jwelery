@@ -174,3 +174,19 @@
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @utility animate-rise { animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both; }
 @media (prefers-reduced-motion: reduce) { .animate-rise { animation: none; } }
+
+/* Preserve the campaign composition on small and short screens. */
+section[id] { scroll-margin-top: 1rem; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+.skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; padding: 1rem; background: var(--paper); color: var(--ink); transform: translateY(-200%); }
+.skip-link:focus { transform: none; }
+@media (max-width: 767px) {
+  #top { min-height: max(760px, 100svh); }
+  #top > div:nth-child(2) { margin-top: -3rem; }
+  .eyebrow { letter-spacing: .18em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

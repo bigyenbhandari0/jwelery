@@ -32,8 +32,13 @@ export const Route = createFileRoute("/")({
 /** 0 when the element's top hits viewport bottom, 1 when its bottom leaves viewport top. */
 function useProgress(ref: RefObject<HTMLElement | null>) {
   const [p, setP] = useState(0.5);
+  const [motion, setMotion] = useState(0);
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => setMotion(preference.matches ? 0 : window.innerWidth < 768 ? 0.4 : 1);
+    updateMotion();
+    preference.addEventListener("change", updateMotion);
+    window.addEventListener("resize", updateMotion);
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -53,12 +58,13 @@ function useProgress(ref: RefObject<HTMLElement | null>) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);
+      preference.removeEventListener("change", updateMotion);
+      window.removeEventListener("resize", updateMotion);
     };
   }, [ref]);
-  return p;
+  return { p, m: motion };
 }
 
-const motionScale = () => (typeof window !== "undefined" && window.innerWidth < 768 ? 0.4 : 1);
 
 function Header() {
   const { count, setBagOpen } = useShop();
@@ -87,13 +93,12 @@ function Header() {
 
 function Opening() {
   const ref = useRef<HTMLElement>(null);
-  const p = useProgress(ref);
-  const m = motionScale();
+  const { p, m } = useProgress(ref);
   const shift = (p - 0.5) * 2; // -1..1
   return (
     <section ref={ref} id="top" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink text-paper">
       <div className="glow-pink pointer-events-none absolute left-1/2 top-1/2 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2" />
-      <div className="animate-rise relative w-[min(78vw,640px)]" style={{ transform: `translateY(${shift * 60 * m}px) scale(${1 + shift * 0.06 * m})` }}>
+      <div className="relative w-[min(86vw,720px)]" style={{ transform: `translateY(${shift * 60 * m}px) scale(${1 + shift * 0.06 * m})` }}>
         <img
           src={heartRing}
           alt="Silver ring set with a heart-shaped pink stone"
@@ -113,22 +118,21 @@ function Opening() {
 
 function Editorial() {
   const ref = useRef<HTMLElement>(null);
-  const p = useProgress(ref);
-  const m = motionScale();
+  const { p, m } = useProgress(ref);
   return (
     <section ref={ref} id="story" className="overflow-hidden bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-40">
-        <div className="relative z-10 md:col-span-8">
+        <div className="relative z-10 md:col-span-7">
           <p className="eyebrow mb-8 text-muted-foreground">AUREN — Fine Jewellery</p>
           <h2 className="font-display text-[clamp(2.25rem,6vw,6.75rem)] font-normal uppercase leading-[0.92] tracking-tight">
             Extraordinary<br />Jewellery.<br /><em className="font-normal">For you.</em>
           </h2>
           <p className="mt-10 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Each piece begins with a single stone, chosen for its light — then set by hand so nothing stands between it and you.
+            A study in light, form, and the pieces we hold close. Discover expressive stones and sculptural silhouettes, imagined for your everyday and your extraordinary.
           </p>
           <a href="#collection" className="eyebrow link-line mt-8 inline-block">Discover the collection</a>
         </div>
-        <div className="md:col-span-4 md:mt-48">
+        <div className="md:col-span-5">
           <img
             src={ringBox}
             alt="Open burgundy velvet box holding the pink heart ring"
@@ -147,8 +151,7 @@ function Editorial() {
 function Collection() {
   const { openProduct } = useShop();
   const ref = useRef<HTMLDivElement>(null);
-  const p = useProgress(ref);
-  const m = motionScale();
+  const { p, m } = useProgress(ref);
   const pair = [PRODUCTS.marquise, PRODUCTS.eternity];
   return (
     <section id="collection" className="overflow-hidden bg-ink text-paper">
@@ -199,7 +202,7 @@ function EternityFeature() {
           <p className="eyebrow text-muted-foreground">Signature piece</p>
           <h2 className="mt-4 font-display text-6xl font-normal italic md:text-8xl">Eternity</h2>
           <p className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Cut from a single block of silver, its square face is polished to a deep black so the central stone appears to float. The shoulders are engraved by hand and finished slowly.
+            A bold square silhouette. A luminous central stone. Eternity brings sculptural presence to a simple gesture — a signature piece designed to hold your attention.
           </p>
           <p className="mt-8 text-sm">{formatNPR(e.price)} <span className="text-muted-foreground">· demo price</span></p>
           <button type="button" onClick={() => openProduct(e.id)} className="eyebrow mt-8 bg-champagne px-8 py-4 text-champagne-foreground transition-colors hover:bg-ink hover:text-paper">
@@ -245,6 +248,7 @@ function Footer() {
         <div>
           <p className="font-display text-5xl tracking-[0.2em] md:text-7xl">AUREN</p>
           <p className="mt-4 text-xs text-paper/60">A jewelry storefront concept by AUREN.</p>
+          <p className="mt-2 text-xs text-paper/40">Concept imagery and illustrative prices. No orders are processed.</p>
         </div>
         <ul className="flex gap-8">
           <li><a className="eyebrow link-line" href="#collection">Collection</a></li>
@@ -260,7 +264,8 @@ function Page() {
   return (
     <>
       <Header />
-      <main>
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <main id="main-content">
         <Opening />
         <Editorial />
         <Collection />
