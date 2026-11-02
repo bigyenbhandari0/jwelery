@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { RingExplorer } from "./RingExplorer";
+import { useEffect, useRef, useState } from 'react';
 import ring from '@/assets/heart-ring.jpg';
 
 /** Perspective product display with native browser compositing, no WebGL dependency. */
 export function CinematicScene() {
+  const [exploring, setExploring] = useState(false);
   const display = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = display.current;
@@ -30,8 +32,9 @@ export function CinematicScene() {
       <div className="hero-edition hero-arrive"><span>01 / 05</span><span>ROSÉ CŒUR<br/><small>THE SIGNATURE EDIT</small></span></div>
     </div>
     <div ref={display} className="maison-display" aria-label="Jewelry display with dimensional metallic sculpture">
-      <div className="sculpture" aria-hidden="true"><div className="sculpture-ring sculpture-one"/><div className="sculpture-ring sculpture-two"/><div className="sculpture-ring sculpture-three"/></div>
-      <div className="jewel-plane"><img src={ring} width={1024} height={1024} alt="Rosé Cœur, a pink heart gemstone ring with silver pavé shoulders" fetchPriority="high"/></div>
+      {exploring && <RingExplorer onClose={() => setExploring(false)} />}
+      <div className="jewel-plane" style={{visibility:exploring?"hidden":"visible"}}><img src={ring} width={1024} height={1024} alt="Rosé Cœur, a pink heart gemstone ring with silver pavé shoulders" fetchPriority="high"/></div>
+      {!exploring && <button className="explore-ring-button" onClick={() => setExploring(true)}>Explore a ring in 3D <span aria-hidden="true">↗</span></button>}
       <span className="display-note">A STUDY IN LIGHT & FORM</span>
     </div>
     <span className="hero-side-label" aria-hidden="true">EST. IN IMAGINATION — DESIGNED TO ENDURE</span>

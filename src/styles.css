@@ -296,3 +296,22 @@ footer { border-top:1px solid #bba58930; }
 footer>div { padding-top:5rem; padding-bottom:5rem; }
 @media(max-width:767px) { .hero-side-label {display:none;} .maison-manifesto {padding:5rem 1.5rem;} .intro-orbit {width:260px;height:260px;} .intro-mark {font-size:6rem;} .maison-ribbon {padding:1rem 0;} .jewel-plane::after {animation:none;} .maison-ribbon>div {animation-duration:70s;} }
 @media(prefers-reduced-motion:reduce) { .brand-intro {display:none;} .maison-ribbon>div {animation:none;} .jewel-plane::after {animation:none;} }
+/* Intentional product framing and an opt-in interactive atelier. */
+.maison-hero { grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); }
+.maison-hero-copy,.maison-display { min-width:0; }
+.jewel-plane { width:100%; }
+.maison-display { overflow:clip; }
+.explore-ring-button { position:absolute; bottom:0; left:50%; transform:translateX(-50%); white-space:nowrap; padding:1rem 1.4rem; border:1px solid #c9ad784d; background:#15130fe8; color:#dbc5a4; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; z-index:3; }
+.ring-explorer { position:absolute; inset:0; z-index:4; background:#101011; border:1px solid #bba58925; color:#e9dfcf; }
+.ring-explorer-stage { height:100%; width:100%; }
+.ring-explorer-stage canvas { width:100%;height:100%; touch-action:pan-y; }
+.explorer-close { position:absolute; top:1rem; left:1rem; padding:.7rem; font-size:.6rem; letter-spacing:.08em; background:#101011cc; }
+.explorer-tools { position:absolute; bottom:1rem; left:1rem; right:1rem; text-align:center; padding:.8rem; background:#101011df; }
+.finish-options,.explorer-actions { display:flex; justify-content:center; flex-wrap:wrap; gap:.6rem; margin-top:.9rem; }
+.finish-options button,.explorer-actions button { display:flex; align-items:center; gap:.4rem; padding:.55rem .65rem; font-size:.6rem; border:1px solid #ffffff25; }
+.finish-options button[aria-pressed="true"] { border-color:#c8ac78; }
+.finish-options i { width:12px;height:12px;border-radius:50%; }
+.explorer-disclaimer { font-size:.5rem; color:#9c9286; margin-top:.8rem; }
+.explorer-status { position:absolute; left:10%; right:10%; top:40%; text-align:center; font-size:.85rem; line-height:1.8; }
+.explorer-return { position:absolute; top:65%; left:25%; width:50%; padding:1rem; border:1px solid #bba58960; font-size:.65rem; }
+@media(max-width:767px) { .maison-hero {grid-template-columns:minmax(0,1fr);} .maison-display { height:450px;} .jewel-plane {width:100%;} .explorer-tools .eyebrow {font-size:.5rem;} }
