@@ -1,7 +1,7 @@
 import { BoutiqueTools } from "@/components/auren/BoutiqueTools";
 import { BrandIntro } from "@/components/auren/BrandIntro";
 import { CinematicScene } from "@/components/auren/CinematicScene";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { ShoppingBag } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
@@ -183,29 +183,35 @@ function EternityFeature() {
 }
 
 function Shop() {
-  const openProduct = (id: string) => { window.location.assign(`/pieces/${id}`); };
+  const gallery = useRef<HTMLElement>(null);
   const [filter, setFilter] = useState('All pieces');
   const catalogue = [PRODUCTS.coeur, PRODUCTS.bordeaux, PRODUCTS.band, PRODUCTS.marquise, PRODUCTS.eternity];
   const list = catalogue.filter(p => filter === 'All pieces' || (filter === 'Colour stories' ? ['coeur','bordeaux'].includes(p.id) : filter === 'Statement rings' ? ['marquise','eternity'].includes(p.id) : p.id === 'band'));
-
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cards = gallery.current?.querySelectorAll('.catalog-card');
+    const observer = new IntersectionObserver(entries => entries.forEach(e => {
+      if(e.isIntersecting) { e.target.classList.add('gallery-visible');observer.unobserve(e.target); }
+    }), {threshold:.08});
+    cards?.forEach(el=>{el.classList.add('gallery-pending');observer.observe(el);});
+    return ()=>{observer.disconnect();cards?.forEach(el=>el.classList.remove('gallery-pending'));};
+  }, [filter]);
   return (
-    <section className="bg-paper pb-24 text-ink md:pb-36" aria-labelledby="shop-title">
-      <div className="mx-auto max-w-[1600px] border-t border-border px-5 pt-20 md:px-10">
-        <div className="shop-heading"><div><p className="eyebrow mb-5 text-muted-foreground">YOUR NEXT SIGNATURE</p><h2 id="shop-title" className="font-display text-4xl font-normal md:text-5xl">Find your forever</h2></div><p>Discover the piece that feels like you.<br/>Explore colour, character, and quiet brilliance.</p></div>
-        <div className="collection-filters" aria-label="Filter jewelry">{['All pieces','Colour stories','Statement rings','Everyday brilliance'].map(label=><button key={label} type="button" aria-pressed={filter===label} onClick={()=>setFilter(label)}>{label}</button>)}</div>
-        <p className="eyebrow result-count" role="status">{list.length} {list.length===1?'piece':'pieces'} to discover</p>
-        <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-8">
-          {list.map((p) => (
-            <li key={p.id} className="shop-product">
-              <button type="button" onClick={() => openProduct(p.id)} className="group block w-full overflow-hidden bg-ink" aria-label={`Quick view ${p.name}`}>
-                <img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </button>
-              <h3 className="mt-4 font-display text-xl">{p.name}</h3>
-              <p className="mt-1 text-xs text-muted-foreground">{formatNPR(p.price)} · demo</p>
-              <p className="product-character">{p.id === "band" ? "Quiet brilliance, every day" : p.id === "coeur" || p.id === "bordeaux" ? "A vivid expression of you" : "A silhouette to remember"}</p><button type="button" onClick={() => openProduct(p.id)} className="eyebrow link-line mt-3">Discover piece ↗</button>
-            </li>
-          ))}
+    <section ref={gallery} id="discover" className="signature-gallery" aria-labelledby="shop-title">
+      <div className="signature-gallery-inner">
+        <div className="gallery-masthead"><span className="eyebrow">AUREN / THE COLLECTOR’S EDIT</span><span className="eyebrow">VOL. 01 — FIVE EXPRESSIONS</span></div>
+        <div className="gallery-heading"><div><p className="eyebrow">YOUR NEXT SIGNATURE</p><h2 id="shop-title">Find your<br/><em>forever.</em></h2></div><div className="gallery-introduction"><span aria-hidden="true">✧</span><p>For a moment. For a lifetime.<br/>Discover extraordinary colour, sculptural form,<br/>and the pieces that feel entirely like you.</p><a href="#boutique" className="eyebrow link-line">Let us guide you ↗</a></div></div>
+        <div className="gallery-toolbar"><div className="collection-filters" aria-label="Filter jewelry">{['All pieces','Colour stories','Statement rings','Everyday brilliance'].map(label=><button key={label} type="button" aria-pressed={filter===label} onClick={()=>setFilter(label)}>{label}</button>)}</div><p className="eyebrow gallery-count" role="status">{String(list.length).padStart(2,'0')} {list.length===1?'piece':'pieces'}</p></div>
+        <ul className={`catalog-grid ${filter==='All pieces'?'catalog-complete':''}`} key={filter}>
+          {list.map((p,i)=><li key={p.id} className="catalog-card" style={{transitionDelay:`${(i%3)*85}ms`}}>
+            <Link to="/pieces/$productId" params={{productId:p.id}} className="catalog-link" aria-label={`Discover ${p.name}`}>
+              <div className="catalog-image"><span className="catalog-number">No. {String(catalogue.indexOf(p)+1).padStart(2,'0')}</span><span className="catalog-category">{p.id==='band'?'THE EVERYDAY ICON':p.id==='coeur'||p.id==='bordeaux'?'A COLOUR STORY':'SCULPTURAL EXPRESSION'}</span><img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy"/><span className="catalog-reveal">Explore the piece <span aria-hidden="true">↗</span></span></div>
+              <div className="catalog-details"><div><h3>{p.name}</h3><p>{p.id==='band'?'Quiet brilliance, every day':p.id==='coeur'||p.id==='bordeaux'?'A vivid expression of you':'A silhouette to remember'}</p></div><div className="catalog-price"><span>{formatNPR(p.price)}</span><small>Illustrative price</small></div></div>
+              <span className="catalog-bottom"><span>Discover piece</span><span aria-hidden="true">↗</span></span>
+            </Link>
+          </li>)}
         </ul>
+        <div className="gallery-closing"><span className="eyebrow">A PERSONAL CHOICE, BEAUTIFULLY CONSIDERED.</span><a href="#boutique">Find your piece with the gift concierge <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
   );
