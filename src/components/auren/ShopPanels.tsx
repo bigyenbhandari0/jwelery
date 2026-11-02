@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Minus, Plus, X } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { PRODUCTS, SIZES, formatNPR, useShop } from "@/lib/shop";
+import { getProduct, SIZES, formatNPR, useShop } from "@/lib/shop";
 import { toast } from "sonner";
 
 function Qty({ value, onChange, label }: { value: number; onChange: (n: number) => void; label: string }) {
@@ -112,7 +112,8 @@ export function BagDrawer() {
           ) : (
             <ul className="space-y-6">
               {items.map((i) => {
-                const p = PRODUCTS[i.id];
+                const p = getProduct(i.id);
+                if (!p) return null;
                 return (
                   <li key={i.id + i.size} className="flex gap-4">
                     <img src={p.image} alt="" width={88} height={88} loading="lazy" className="h-22 w-22 bg-ink object-cover" />

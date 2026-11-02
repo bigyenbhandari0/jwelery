@@ -13,7 +13,7 @@ export type Product = {
   description: string;
 };
 
-export const PRODUCTS: Record<string, Product> = {
+export const PRODUCTS = {
   coeur: {
     id: "coeur",
     name: "Rosé Cœur",
@@ -52,7 +52,10 @@ export const PRODUCTS: Record<string, Product> = {
     image: rubyRing,
     description: "A deep red oval stone encircled by a halo of brilliants on a pavé band.",
   },
-};
+} satisfies Record<string, Product>;
+
+export const getProduct = (id: string): Product | undefined =>
+  (PRODUCTS as Record<string, Product>)[id];
 
 export const SIZES = ["5", "6", "7", "8", "9", "10"];
 
@@ -86,7 +89,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) setItems((JSON.parse(raw) as BagItem[]).filter((i) => PRODUCTS[i.id]));
+      if (raw) setItems((JSON.parse(raw) as BagItem[]).filter((i) => getProduct(i.id)));
     } catch {
       /* ignore */
     }
@@ -112,7 +115,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((i) => !(i.id === id && i.size === size)));
 
   const count = items.reduce((a, i) => a + i.qty, 0);
-  const subtotal = items.reduce((a, i) => a + i.qty * PRODUCTS[i.id].price, 0);
+  const subtotal = items.reduce((a, i) => a + i.qty * (getProduct(i.id)?.price ?? 0), 0);
 
   return (
     <Ctx.Provider
@@ -124,7 +127,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         setQty,
         remove,
         quickView,
-        openProduct: (id) => setQuickView(PRODUCTS[id]),
+        openProduct: (id) => setQuickView(getProduct(id) ?? null),
         closeProduct: () => setQuickView(null),
         bagOpen,
         setBagOpen,
