@@ -1,10 +1,10 @@
+import { CinematicScene } from "@/components/auren/CinematicScene";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { ShoppingBag } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { BagDrawer, ProductDialog } from "@/components/auren/ShopPanels";
 import { PRODUCTS, ShopProvider, formatNPR, useShop } from "@/lib/shop";
-import heartRing from "@/assets/heart-ring.jpg";
 import ringBox from "@/assets/ring-box.jpg";
 import handRing from "@/assets/hand-ring.jpg";
 
@@ -88,29 +88,6 @@ function Header() {
         <li><a className="eyebrow" href="#contact">Contact</a></li>
       </ul>
     </header>
-  );
-}
-
-function Opening() {
-  const ref = useRef<HTMLElement>(null);
-  const { p, m } = useProgress(ref);
-  const t = Math.min(1, Math.max(0, (p - 0.25) * 2));
-  return (
-    <section ref={ref} id="top" className="campaign-opening bg-ink text-paper">
-      <div className="campaign-stage">
-        <div className="glow-pink pointer-events-none absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2" style={{ opacity: 1 - t * m }} />
-        <p className="campaign-word" aria-hidden="true" style={{ opacity: 0.12 * (1 - t), transform: `translateX(${-t * 160 * m}px)` }}>ROSÉ</p>
-        <div className="campaign-jewel" style={{ transform: `translateY(${-t * 180 * m}px) scale(${1 + t * 0.65 * m}) rotate(${-t * 9 * m}deg)`, opacity: 1 - Math.max(0, t - 0.65) * 2.4 * m }}>
-          <img src={heartRing} alt="Silver ring set with a heart-shaped pink stone" width={1024} height={1024} fetchPriority="high" className="aspect-square w-full object-cover [mask-image:radial-gradient(closest-side,black_70%,transparent)]" />
-        </div>
-        <div className="campaign-caption" style={{ opacity: 1 - t * m, transform: `translateY(${-t * 50 * m}px)` }}>
-          <p className="eyebrow mb-3 text-paper/60">Collection No. 01 — Rosé Cœur</p>
-          <h1 className="font-display text-4xl italic md:text-6xl">Rare by nature.</h1>
-          <a href="#collection" className="eyebrow link-line mt-5 inline-block text-paper/80">Explore the collection</a>
-        </div>
-        <span className="campaign-scroll eyebrow" aria-hidden="true">Scroll to discover <span>↓</span></span>
-      </div>
-    </section>
   );
 }
 
@@ -274,7 +251,7 @@ function Page() {
       <Header />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <main id="main-content">
-        <Opening />
+        <CinematicScene />
         <Editorial />
         <Collection />
         <EternityFeature />

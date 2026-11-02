@@ -224,3 +224,37 @@ button:disabled { cursor: default; }
   .campaign-stage, .ring-journey-stage { position: relative; }
   .scene-reveal.reveal-ready { opacity: 1; transform: none; }
 }
+
+.three-story { position: relative; height: 650svh; background: var(--ink); color: var(--paper); }
+.three-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.three-canvas { position: absolute; inset: 0; }
+.three-canvas canvas { width: 100%; height: 100%; display: block; }
+.three-fallback { position: absolute; left: 50%; top: 45%; transform: translate(-50%,-50%); width: min(80vw,650px); }
+.three-intro { position: absolute; bottom: 8%; text-align: center; width: 100%; pointer-events: none; }
+.three-intro h1 { font-family: var(--font-display); font-size: clamp(2.5rem,5vw,5rem); font-style: italic; margin: .7rem 0 1.2rem; }
+.three-intro a { pointer-events: auto; }
+.three-editorial { position: absolute; left: 7%; top: 24%; color: var(--ink); pointer-events: none; }
+.three-editorial h2 { font-family: var(--font-display); font-size: clamp(3rem,7.5vw,8rem); line-height: .95; margin-top: 1.5rem; letter-spacing: -.05em; }
+.three-collection-label { position: absolute; left: 20%; right: 20%; top: 20%; display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 2rem; pointer-events: none; }
+.three-eternity-label { position: absolute; top: 10%; width: 100%; text-align: center; font-family: var(--font-display); font-size: clamp(4rem,12vw,10rem); opacity: .5; pointer-events: none; }
+.three-hand { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 5% 8%; background: var(--paper); color: var(--ink); pointer-events: none; }
+.three-hand a { pointer-events: auto; }
+.three-hand h2 { font-family: var(--font-display); font-size: clamp(4rem,8vw,9rem); margin: 1rem 0 2rem; }
+.three-hand img { height: 85svh; width: 100%; object-fit: contain; }
+.three-scroll { position: absolute; right: 3%; bottom: 5%; pointer-events: none; }
+/* Invisible scene overlays must never intercept the active scene's links. */
+.three-hand[style*="opacity: 0;"] a { pointer-events: none; }
+@media (max-width:767px) {
+ .three-story { height: 560svh; }
+ .three-intro { bottom: 12%; }
+ .three-editorial { top: 15%; left: 7%; }
+ .three-editorial h2 { font-size: 3rem; }
+ .three-editorial p { font-size: .5rem; }
+ .three-collection-label { left: 10%; right: 10%; font-size: 1.2rem; }
+ .three-hand { grid-template-columns: 1fr; padding: 12% 8%; }
+ .three-hand > div { position: absolute; top: 12%; left: 8%; z-index: 1; }
+ .three-hand img { height: 80svh; margin-top: 15svh; }
+}
+@media (prefers-reduced-motion:reduce) { .three-story { height: 200svh; } }
+
+.three-story:not(.three-ready) { height: 100svh; }
