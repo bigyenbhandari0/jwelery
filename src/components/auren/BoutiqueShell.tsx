@@ -1,0 +1,14 @@
+import { Link,useLocation } from '@tanstack/react-router';
+import { useState,useEffect } from 'react';
+import { Menu, X, Bookmark, ShoppingBag } from 'lucide-react';
+import { Dialog,DialogContent,DialogTitle,DialogDescription } from '@/components/ui/dialog';
+import { JewelryTray } from './JewelryTray';
+import { useTray } from '@/lib/tray';
+import { useShop } from '@/lib/shop';
+export function BoutiqueHeader(){
+ const pathname=useLocation({select:l=>l.pathname});
+ const [menu,setMenu]=useState(false),[trayOpen,setTrayOpen]=useState(false);const {items}=useTray();const {count,setBagOpen}=useShop();
+ useEffect(()=>{setMenu(false);setTrayOpen(false);},[pathname]);
+ return <><header className="boutique-header"><button className="mobile-menu icon-button" aria-label={menu?'Close menu':'Open menu'} aria-expanded={menu} onClick={()=>setMenu(v=>!v)}>{menu?<X size={20}/>:<Menu size={20}/>}</button><nav className="desktop-nav" aria-label="Primary"><Link to="/" hash="collection">The collection</Link><Link to="/" hash="atelier">The atelier</Link></nav><Link to="/" className="brand-wordmark" aria-label="AUREN home">AUREN<span>FINE JEWELLERY</span></Link><div className="header-actions"><button className="tray-toggle" onClick={()=>setTrayOpen(true)} aria-label={`Open personal tray, ${items.length} ${items.length===1?'piece':'pieces'}`}><Bookmark size={16} strokeWidth={1.4}/><span>Your tray</span><small>{items.length}</small></button><button className="icon-button" onClick={()=>setBagOpen(true)} aria-label={`Open selection, ${count} ${count===1?'item':'items'}`}><ShoppingBag size={17} strokeWidth={1.3}/>{count>0&&<small>{count}</small>}</button></div></header>{menu&&<nav className="mobile-navigation" aria-label="Mobile">{[['collection','The collection'],['atelier','The atelier'],['guide','The gift concierge'],['consultation','Private consultation']].map(([hash,name])=><Link key={hash} to="/" hash={hash!} onClick={()=>setMenu(false)}>{name}<span>↗</span></Link>)}</nav>}<Dialog open={trayOpen} onOpenChange={setTrayOpen}><DialogContent className="tray-dialog"><DialogTitle>Your private selection</DialogTitle><DialogDescription>A considered edit, saved in this browser.</DialogDescription><JewelryTray/></DialogContent></Dialog></>;
+}
+export function BoutiqueFooter(){return <footer className="boutique-footer"><div className="footer-top"><Link to="/" className="brand-wordmark">AUREN<span>FINE JEWELLERY</span></Link><p>Exceptional pieces.<br/><em>Intimate stories.</em></p><nav aria-label="Footer"><Link to="/" hash="collection">Explore the collection</Link><Link to="/" hash="atelier">Personal enquiries</Link><Link to="/" hash="consultation">Private consultation</Link></nav></div><div className="footer-bottom"><span>A storefront concept by AUREN.</span><span>Illustrative prices and imagery. Specifications and availability require confirmation.</span><Link to="/" hash="top">Back to the beginning ↑</Link></div></footer>;}

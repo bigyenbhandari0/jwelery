@@ -1,3 +1,5 @@
+import { readTray } from "@/lib/tray";
+import { inquiryFor } from "@/lib/boutique";
 import { useEffect, useState } from "react";
 import { Minus, Plus, X } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -36,7 +38,7 @@ export function ProductDialog() {
       <DialogContent className="max-h-[92vh] max-w-4xl gap-0 overflow-y-auto border-0 bg-paper p-0 sm:rounded-none">
         {p && (
           <div className="grid md:grid-cols-2">
-            <div className="bg-ink">
+            <div className="bg-[#E9E3D9]">
               <img src={p.image} alt={p.name} width={1024} height={1024} className="aspect-square w-full object-cover" />
             </div>
             <div className="flex flex-col p-6 md:p-10">
@@ -103,7 +105,7 @@ export function BagDrawer() {
     <Sheet open={bagOpen} onOpenChange={setBagOpen}>
       <SheetContent className="flex w-full flex-col border-l-0 bg-paper p-0 sm:max-w-md">
         <div className="border-b border-border p-6">
-          <SheetTitle className="font-display text-3xl font-normal">Your Bag</SheetTitle>
+          <SheetTitle className="font-display text-3xl font-normal">Your selection</SheetTitle>
           <SheetDescription className="eyebrow mt-1 text-muted-foreground">Demo storefront</SheetDescription>
         </div>
         <div className="flex-1 overflow-y-auto p-6">
@@ -116,7 +118,7 @@ export function BagDrawer() {
                 if (!p) return null;
                 return (
                   <li key={i.id + i.size} className="flex gap-4">
-                    <img src={p.image} alt="" width={88} height={88} loading="lazy" className="h-22 w-22 bg-ink object-cover" />
+                    <img src={p.image} alt="" width={88} height={88} loading="lazy" className="h-22 w-22 bg-[#E9E3D9] object-contain" />
                     <div className="flex flex-1 flex-col">
                       <div className="flex justify-between gap-2">
                         <p className="font-display text-lg">{p.name}</p>
@@ -145,7 +147,8 @@ export function BagDrawer() {
             type="button"
             disabled={!items.length}
             onClick={async () => {
-              const details = `AUREN — selection inquiry\n${items.map(i => `${getProduct(i.id)?.name} · US size ${i.size} · quantity ${i.qty}`).join('\n')}\nDemo reference total: ${formatNPR(subtotal)}\nPlease confirm final specifications, availability and pricing.`;
+              const personal = readTray();
+              const details = inquiryFor(items.map(i => ({...personal.find(p=>p.id===i.id), id:i.id, size:`US ${i.size}`, qty:i.qty})), `Demo reference total: ${formatNPR(subtotal)}`);
               try { await navigator.clipboard.writeText(details); toast("Selection copied. Paste it into your preferred messaging app."); }
               catch { toast("Copy is unavailable in this browser. Your selection remains in the bag."); }
             }}

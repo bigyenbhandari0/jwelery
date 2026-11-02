@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import heartRing from "@/assets/heart-ring.jpg";
-import ornateRing from "@/assets/ornate-ring.jpg";
-import squareRing from "@/assets/square-ring.jpg";
-import bandRing from "@/assets/band-ring.jpg";
-import rubyRing from "@/assets/ruby-ring.jpg";
+import heartRing from "@/assets/heart-ring-ivory.webp";
+import ornateRing from "@/assets/ornate-ring-ivory.webp";
+import squareRing from "@/assets/square-ring-ivory.webp";
+import bandRing from "@/assets/band-ring-ivory.webp";
+import rubyRing from "@/assets/ruby-ring-ivory.webp";
 
 export type Product = {
   id: string;
