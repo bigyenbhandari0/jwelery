@@ -34,6 +34,7 @@ export function CinematicScene() {
       <div className="jewel-plane"><img src={ring} width={1024} height={1024} alt="Rosé Cœur, a pink heart gemstone ring with silver pavé shoulders" fetchPriority="high"/></div>
       <span className="display-note">A STUDY IN LIGHT & FORM</span>
     </div>
+    <span className="hero-side-label" aria-hidden="true">EST. IN IMAGINATION — DESIGNED TO ENDURE</span>
     <div className="hero-baseline"><span>FINE JEWELLERY / VOL. I</span><a href="#story">Our world <span aria-hidden="true">↓</span></a></div>
   </section>;
 }

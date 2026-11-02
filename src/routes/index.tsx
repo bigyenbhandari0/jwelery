@@ -1,3 +1,4 @@
+import { BrandIntro } from "@/components/auren/BrandIntro";
 import { CinematicScene } from "@/components/auren/CinematicScene";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type RefObject } from "react";
@@ -98,7 +99,7 @@ function Editorial() {
     <section ref={ref} id="story" className="overflow-hidden bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-40">
         <div className="relative z-10 md:col-span-7 scene-reveal">
-          <p className="eyebrow mb-8 text-muted-foreground">AUREN — Fine Jewellery</p>
+          <p className="eyebrow mb-8 text-muted-foreground">01 / THE ART OF GIVING</p>
           <h2 className="font-display text-[clamp(2.25rem,6vw,6.75rem)] font-normal uppercase leading-[0.92] tracking-tight">
             A little rarer.<br /><em className="font-normal">A little more you.</em>
           </h2>
@@ -131,7 +132,7 @@ function Collection() {
       <div className="mx-auto max-w-[1600px] px-5 pt-24 md:px-10 md:pt-36">
         <div className="mb-14 flex items-end justify-between">
           <h2 className="font-display text-5xl font-normal md:text-7xl">Objects of affection</h2>
-          <p className="eyebrow hidden text-paper/60 md:block">Vol. I</p>
+          <p className="eyebrow hidden text-paper/60 md:block">THE PRIVATE EDIT / VOL. I</p>
         </div>
         <div className="grid gap-16 md:grid-cols-2 md:gap-10">
           {pair.map((prod, i) => (
@@ -141,7 +142,7 @@ function Collection() {
               </button>
               <div className="mt-6 flex items-baseline justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-2xl">{prod.name}</h3>
+                  <p className="eyebrow mb-2 text-paper/40">0{i + 1} / THE SIGNATURES</p><h3 className="font-display text-2xl">{prod.name}</h3>
                   <p className="mt-1 text-xs text-paper/60">{formatNPR(prod.price)} · demo</p>
                 </div>
                 <button type="button" onClick={() => openProduct(prod.id)} className="eyebrow link-line">View piece</button>
@@ -240,13 +241,18 @@ function Page() {
   }, []);
   return (
     <>
+      <BrandIntro />
       <Header />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <main id="main-content">
         <CinematicScene />
+        <div className="maison-ribbon" aria-label="AUREN: A study in light, made for your extraordinary">
+          <div aria-hidden="true">{Array.from({length:4},(_,i)=><span key={i}>A STUDY IN LIGHT <i>✧</i> OBJECTS OF AFFECTION <i>✧</i> YOUR EXTRAORDINARY <i>✧</i></span>)}</div>
+        </div>
         <Editorial />
         <Collection />
         <EternityFeature />
+        <section className="maison-manifesto scene-reveal" aria-label="The AUREN philosophy"><p className="eyebrow">THE AUREN POINT OF VIEW</p><h2>Less ordinary.<br/><em>More meaningful.</em></h2><p>A glint of light. A feeling you keep.<br/>Pieces that become part of your story.</p><a className="eyebrow link-line" href="#collection">Explore your next chapter ↗</a><span className="manifesto-seal" aria-hidden="true">A</span></section>
         <Shop />
       </main>
       <Footer />
