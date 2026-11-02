@@ -1,3 +1,4 @@
+import { BoutiqueTools } from "@/components/auren/BoutiqueTools";
 import { BrandIntro } from "@/components/auren/BrandIntro";
 import { CinematicScene } from "@/components/auren/CinematicScene";
 import { createFileRoute } from "@tanstack/react-router";
@@ -76,7 +77,7 @@ function Header() {
         <ul className="hidden gap-10 md:flex">
           <li><a className="eyebrow link-line" href="#collection">Collection</a></li>
           <li><a className="eyebrow link-line" href="#story">Our Story</a></li>
-          <li><a className="eyebrow link-line" href="#contact">Contact</a></li>
+          <li><a className="eyebrow link-line" href="#boutique">Your atelier</a></li>
         </ul>
         <button type="button" onClick={() => setBagOpen(true)} className="eyebrow flex items-center gap-2" aria-label={`Open bag, ${count} items`}>
           <ShoppingBag className="h-4 w-4" strokeWidth={1.25} />
@@ -86,7 +87,7 @@ function Header() {
       <ul className="flex justify-center gap-6 pb-2 md:hidden">
         <li><a className="eyebrow" href="#collection">Collection</a></li>
         <li><a className="eyebrow" href="#story">Our Story</a></li>
-        <li><a className="eyebrow" href="#contact">Contact</a></li>
+        <li><a className="eyebrow" href="#boutique">Atelier</a></li>
       </ul>
     </header>
   );
@@ -259,6 +260,7 @@ function Page() {
         <EternityFeature />
         <section className="maison-manifesto scene-reveal" aria-label="The AUREN philosophy"><p className="eyebrow">THE AUREN POINT OF VIEW</p><h2>Less ordinary.<br/><em>More meaningful.</em></h2><p>A glint of light. A feeling you keep.<br/>Pieces that become part of your story.</p><a className="eyebrow link-line" href="#collection">Explore your next chapter ↗</a><span className="manifesto-seal" aria-hidden="true">A</span></section>
         <Shop />
+        <BoutiqueTools />
       </main>
       <Footer />
     </>

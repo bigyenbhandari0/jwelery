@@ -144,13 +144,17 @@ export function BagDrawer() {
           <button
             type="button"
             disabled={!items.length}
-            onClick={() => toast("This is a demo — no checkout or payment takes place.")}
+            onClick={async () => {
+              const details = `AUREN — selection inquiry\n${items.map(i => `${getProduct(i.id)?.name} · US size ${i.size} · quantity ${i.qty}`).join('\n')}\nDemo reference total: ${formatNPR(subtotal)}\nPlease confirm final specifications, availability and pricing.`;
+              try { await navigator.clipboard.writeText(details); toast("Selection copied. Paste it into your preferred messaging app."); }
+              catch { toast("Copy is unavailable in this browser. Your selection remains in the bag."); }
+            }}
             className="eyebrow mt-5 w-full bg-ink px-6 py-4 text-paper transition-colors hover:bg-burgundy disabled:opacity-40"
           >
-            Checkout (demo)
+            Copy selection inquiry ↗
           </button>
           <p className="mt-3 text-center text-xs text-muted-foreground">
-            Demo only. No payment or personal information is collected.
+            Inquiry draft only. Nothing is sent and no payment is collected.
           </p>
         </div>
       </SheetContent>
