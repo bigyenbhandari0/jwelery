@@ -262,3 +262,15 @@ button:disabled { cursor: default; }
 .scene-fallback { position:absolute; inset:0; transition:background .25s; }
 .scene-fallback img { position:absolute; top:46%; left:50%; width:min(72vw,640px); aspect-ratio:1; object-fit:contain; mask-image:radial-gradient(closest-side,black 72%,transparent); will-change:transform,opacity; }
 @media(max-width:767px) { .scene-fallback img { width:92vw; } }
+
+/* Realistic campaign imagery replaces the stylized procedural models. */
+.photo-story .scene-fallback img { filter: none; }
+.photo-story .three-editorial { max-width: 45%; }
+.photo-story .three-editorial h2 { font-size: clamp(3rem,6vw,6.5rem); }
+.photo-story .three-sticky { isolation: isolate; }
+.photo-story .three-intro { text-shadow: 0 2px 18px #080808; }
+@media(max-width:767px) {
+ .photo-story .three-editorial { top:12%; max-width:90%; }
+ .photo-story .three-editorial h2 { font-size:2.5rem; }
+ .photo-story .scene-fallback img[alt="Ring inside a burgundy presentation box"] { top:59%; left:55% !important; width:85vw; }
+}
