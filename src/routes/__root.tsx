@@ -102,8 +102,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{__html: "try{if(sessionStorage.getItem('auren-ivory-welcome-v1')==='seen'||matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash)document.documentElement.setAttribute('data-auren-intro','skip')}catch(e){}"}} />
         <HeadContent />
       </head>
       <body>

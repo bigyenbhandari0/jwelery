@@ -208,3 +208,26 @@
 .product-image-link {height:auto;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .product-image-link img {display:block;opacity:1;visibility:visible;width:75%;height:80%;}
 .product-card.reveal.reveal-ready {opacity:1;transform:none;transition:none;}
+/* An ivory maison welcome: rendered with the page, never tied to network loading. */
+.brand-intro {position:fixed;inset:0;z-index:200;background:#F6F2EA;color:#29231F;display:grid;place-items:center;overflow:hidden;opacity:1;transition:opacity .6s cubic-bezier(.4,0,.2,1),visibility .6s;}
+.brand-intro.leaving {opacity:0;visibility:hidden;pointer-events:none;}
+html[data-auren-intro="skip"] .brand-intro {display:none;}
+.intro-composition {text-align:center;transform:translateY(-15px);}
+.intro-monogram {width:100px;height:100px;margin:0 auto 35px;position:relative;display:grid;place-items:center;animation:intro-monogram-in 1.1s cubic-bezier(.16,1,.3,1) both;}
+.intro-monogram::before {content:'';position:absolute;inset:0;border:1px solid #D6C4A780;border-radius:50%;}
+.intro-monogram::after {content:'';position:absolute;inset:8px;border:1px solid #D6C4A730;border-radius:50%;}
+.intro-monogram span {font-family:var(--font-display);font-size:76px;line-height:1;font-weight:400;color:#A68A60;}
+.intro-wordmark {display:flex;justify-content:center;gap:17px;padding-left:17px;font-family:var(--font-display);font-size:44px;line-height:1.2;}
+.intro-wordmark span {display:block;animation:intro-letter-in .85s cubic-bezier(.16,1,.3,1) both;}
+.intro-identity {font-size:9px;letter-spacing:.3em;margin-top:14px;color:#A68A60;animation:intro-letter-in .8s .35s both;}
+.intro-hairline {height:1px;width:90px;background:#D6C4A7;margin:30px auto 24px;transform-origin:center;animation:intro-line-in 1.1s .3s cubic-bezier(.16,1,.3,1) both;}
+.intro-promise {font-family:var(--font-display);font-size:25px;font-style:italic;color:#9b805c;animation:intro-letter-in .9s .45s both;}
+.intro-edition {position:absolute;bottom:35px;left:5%;font-size:9px;letter-spacing:.14em;color:#b09a7b;}
+.intro-enter {position:absolute;bottom:22px;right:5%;display:flex;align-items:center;gap:25px;min-height:48px;padding:12px 0;font-size:12px;color:#8d704c;border-bottom:1px solid #d6c4a766;}
+@keyframes intro-letter-in {from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+@keyframes intro-monogram-in {from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+@keyframes intro-line-in {from{opacity:0;transform:scaleX(.1);}to{opacity:1;transform:scaleX(1);}}
+@media(max-width:650px){.intro-monogram{width:82px;height:82px;margin-bottom:28px;}.intro-monogram span{font-size:64px;}.intro-wordmark{font-size:38px;gap:13px;padding-left:13px;}.intro-promise{font-size:23px;}.intro-edition{bottom:90px;left:0;right:0;text-align:center;font-size:8px;}.intro-enter{left:50%;right:auto;bottom:28px;transform:translateX(-50%);white-space:nowrap;}.intro-hairline{margin:26px auto 22px;}}
+@media(prefers-reduced-motion:reduce){.brand-intro {display:none;}.intro-monogram,.intro-wordmark span,.intro-identity,.intro-promise,.intro-hairline {animation:none;}}
+.brand-intro.playing {animation:intro-failsafe .1s 3.4s forwards;}
+@keyframes intro-failsafe {to {opacity:0;visibility:hidden;pointer-events:none;}}
