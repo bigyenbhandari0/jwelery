@@ -70,7 +70,7 @@ function useProgress(ref: RefObject<HTMLElement | null>) {
 function Header() {
   const { count, setBagOpen } = useShop();
   return (
-    <header className="absolute inset-x-0 top-0 z-30 text-paper maison-header">
+    <header className="fixed inset-x-0 top-0 z-30 text-paper maison-header">
       <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-6 md:px-10" aria-label="Main">
         <a href="#top" className="font-display text-lg tracking-[0.3em]">AUREN</a>
         <ul className="hidden gap-10 md:flex">
@@ -183,20 +183,25 @@ function EternityFeature() {
 
 function Shop() {
   const { openProduct } = useShop();
-  const list = [PRODUCTS.coeur, PRODUCTS.bordeaux, PRODUCTS.band, PRODUCTS.marquise];
+  const [filter, setFilter] = useState('All pieces');
+  const catalogue = [PRODUCTS.coeur, PRODUCTS.bordeaux, PRODUCTS.band, PRODUCTS.marquise, PRODUCTS.eternity];
+  const list = catalogue.filter(p => filter === 'All pieces' || (filter === 'Colour stories' ? ['coeur','bordeaux'].includes(p.id) : filter === 'Statement rings' ? ['marquise','eternity'].includes(p.id) : p.id === 'band'));
+
   return (
     <section className="bg-paper pb-24 text-ink md:pb-36" aria-labelledby="shop-title">
       <div className="mx-auto max-w-[1600px] border-t border-border px-5 pt-20 md:px-10">
-        <h2 id="shop-title" className="font-display text-4xl font-normal md:text-5xl">Find your forever</h2>
+        <div className="shop-heading"><div><p className="eyebrow mb-5 text-muted-foreground">YOUR NEXT SIGNATURE</p><h2 id="shop-title" className="font-display text-4xl font-normal md:text-5xl">Find your forever</h2></div><p>Discover the piece that feels like you.<br/>Explore colour, character, and quiet brilliance.</p></div>
+        <div className="collection-filters" aria-label="Filter jewelry">{['All pieces','Colour stories','Statement rings','Everyday brilliance'].map(label=><button key={label} type="button" aria-pressed={filter===label} onClick={()=>setFilter(label)}>{label}</button>)}</div>
+        <p className="eyebrow result-count" role="status">{list.length} {list.length===1?'piece':'pieces'} to discover</p>
         <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-8">
           {list.map((p) => (
-            <li key={p.id} className="scene-reveal">
+            <li key={p.id} className="shop-product">
               <button type="button" onClick={() => openProduct(p.id)} className="group block w-full overflow-hidden bg-ink" aria-label={`Quick view ${p.name}`}>
                 <img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </button>
               <h3 className="mt-4 font-display text-xl">{p.name}</h3>
               <p className="mt-1 text-xs text-muted-foreground">{formatNPR(p.price)} · demo</p>
-              <button type="button" onClick={() => openProduct(p.id)} className="eyebrow link-line mt-3">Quick view</button>
+              <p className="product-character">{p.id === "band" ? "Quiet brilliance, every day" : p.id === "coeur" || p.id === "bordeaux" ? "A vivid expression of you" : "A silhouette to remember"}</p><button type="button" onClick={() => openProduct(p.id)} className="eyebrow link-line mt-3">Discover piece ↗</button>
             </li>
           ))}
         </ul>
@@ -211,7 +216,7 @@ function Footer() {
       <div className="mx-auto flex max-w-[1600px] flex-col gap-10 px-5 py-16 md:flex-row md:items-end md:justify-between md:px-10">
         <div>
           <p className="font-display text-5xl tracking-[0.2em] md:text-7xl">AUREN</p>
-          <p className="mt-4 text-xs text-paper/60">A jewelry storefront concept by AUREN.</p>
+          <p className="mt-4 text-xs text-paper/60">Fine jewellery. Extraordinary possibilities.</p>
           <p className="mt-2 text-xs text-paper/40">Concept imagery and illustrative prices. No orders are processed.</p>
         </div>
         <ul className="flex gap-8">
