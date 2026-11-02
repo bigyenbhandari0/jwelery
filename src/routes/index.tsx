@@ -125,7 +125,7 @@ function Editorial() {
 }
 
 function Collection() {
-  const { openProduct } = useShop();
+  const openProduct = (id: string) => { window.location.assign(`/pieces/${id}`); };
   const pair = [PRODUCTS.marquise, PRODUCTS.eternity];
   return (
     <section id="collection" className="overflow-hidden bg-ink text-paper">
@@ -157,7 +157,7 @@ function Collection() {
 }
 
 function EternityFeature() {
-  const { openProduct } = useShop();
+  const openProduct = (id: string) => { window.location.assign(`/pieces/${id}`); };
   const e = PRODUCTS.eternity;
   return (
     <section className="eternity-section bg-paper text-ink">
@@ -182,7 +182,7 @@ function EternityFeature() {
 }
 
 function Shop() {
-  const { openProduct } = useShop();
+  const openProduct = (id: string) => { window.location.assign(`/pieces/${id}`); };
   const [filter, setFilter] = useState('All pieces');
   const catalogue = [PRODUCTS.coeur, PRODUCTS.bordeaux, PRODUCTS.band, PRODUCTS.marquise, PRODUCTS.eternity];
   const list = catalogue.filter(p => filter === 'All pieces' || (filter === 'Colour stories' ? ['coeur','bordeaux'].includes(p.id) : filter === 'Statement rings' ? ['marquise','eternity'].includes(p.id) : p.id === 'band'));
