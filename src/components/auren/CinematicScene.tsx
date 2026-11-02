@@ -1,56 +1,39 @@
-import { useEffect, useRef, useState } from 'react';
-import handImage from '@/assets/hand-ring.jpg';
-import fallbackImage from '@/assets/heart-ring.jpg';
-import boxImage from '@/assets/ring-box.jpg';
-import squareImage from '@/assets/square-ring.jpg';
-import ornateImage from '@/assets/ornate-ring.jpg';
+import { useEffect, useRef } from 'react';
+import ring from '@/assets/heart-ring.jpg';
 
-const clamp = (v: number) => Math.max(0, Math.min(1, v));
-const smooth = (v: number) => { const t = clamp(v); return t*t*(3-2*t); };
-
-/** Photographic campaign sequence: original jewelry imagery with scroll compositing. */
+/** Perspective product display with native browser compositing, no WebGL dependency. */
 export function CinematicScene() {
-  const section = useRef<HTMLElement>(null);
-  const [progress, setProgress] = useState(0);
+  const display = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const el = display.current;
+    if (!el || !window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) return;
     let frame = 0;
-    const update = () => {
-      frame = 0;
-      const r = section.current?.getBoundingClientRect();
-      if (r) setProgress(clamp(-r.top / Math.max(1, r.height - window.innerHeight)));
+    const move = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      const { clientX, clientY } = event;
+      frame = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--rx', `${-(clientY-r.top-r.height/2)/r.height*9}deg`);
+        el.style.setProperty('--ry', `${(clientX-r.left-r.width/2)/r.width*12}deg`);
+      });
     };
-    const scroll = () => { if (!frame) frame = requestAnimationFrame(update); };
-    window.addEventListener('scroll', scroll, { passive: true });
-    window.addEventListener('resize', scroll);
-    update();
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll); };
-  }, []);
-  const box = smooth((progress - .19) / .08);
-  const pair = smooth((progress - .40) / .08);
-  const closeup = smooth((progress - .58) / .15);
-  const hand = smooth((progress - .80) / .12);
-  return (
-    <section ref={section} id="top" className="jewel-film">
-      <div className="jewel-film-stage">
-        <div className="film-panel film-dark" style={{opacity:1-box}} aria-hidden={box===1}>
-          <img className="film-hero-ring" src={fallbackImage} alt="Pink heart gemstone ring" fetchPriority="high" style={{transform:`scale(${1+progress*.7}) translateY(${-progress*30}px)`}} />
-          <div className="film-intro"><p className="eyebrow">AUREN — Fine Jewellery</p><h1>Rare by nature.</h1><a href="#collection" tabIndex={box===1?-1:0} className="eyebrow link-line">Explore the collection</a></div>
-        </div>
-        <div className="film-panel film-box" style={{opacity:box*(1-pair)}} aria-hidden={box===0||pair===1}>
-          <div className="film-editorial"><p className="eyebrow">An extraordinary gesture</p><h2>Luxury.<br/>With love.<br/><em>For you.</em></h2></div>
-          <img src={boxImage} alt="Pink ring in a burgundy presentation box" style={{transform:`translateY(${(1-box)*55}px) scale(${.94+box*.06})`}} />
-        </div>
-        <div className="film-panel film-dark film-pair" style={{opacity:pair*(1-hand)}} aria-hidden={pair===0||hand===1}>
-          <div className="film-piece film-left" style={{opacity:1-closeup,transform:`translateX(${-closeup*100}px)`}}><p>Marquise Noble</p><img src={ornateImage} alt="Marquise Noble diamond ring" /></div>
-          <div className="film-piece film-right" style={{left:`${50-closeup*25}%`,width:`${50+closeup*50}%`}}><p style={{opacity:1-closeup}}>Eternity</p><img src={squareImage} alt="Eternity ring" style={{transform:`scale(${.9+closeup*.4})`}} /></div>
-          <p className="film-eternity" style={{opacity:closeup}}>Eternity</p>
-        </div>
-        <div className="film-panel film-hand" style={{opacity:hand}} aria-hidden={hand===0}>
-          <div><p className="eyebrow">A moment. Forever.</p><h2>Eternity</h2><a href="#collection" tabIndex={hand>.9?0:-1} className="eyebrow link-line">Discover the pieces</a></div>
-          <img src={handImage} alt="Hand wearing the Eternity ring" style={{transform:`translateY(${(1-hand)*65}px)`}} />
-        </div>
-        <p className="film-scroll eyebrow" style={{opacity:1-smooth(progress/.1)}}>Scroll to unfold ↓</p>
-      </div>
-    </section>
-  );
+    const reset = () => { cancelAnimationFrame(frame); el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg'); };
+    el.addEventListener('pointermove',move);el.addEventListener('pointerleave',reset);
+    return () => {cancelAnimationFrame(frame);el.removeEventListener('pointermove',move);el.removeEventListener('pointerleave',reset);};
+  },[]);
+  return <section id="top" className="maison-hero">
+    <div className="maison-hero-copy">
+      <p className="eyebrow hero-arrive">THE FIRST COLLECTION · AUREN</p>
+      <h1 className="hero-arrive">Some things<br/>are <em>forever.</em></h1>
+      <p className="hero-description hero-arrive">Extraordinary stones. Quiet confidence.<br/>Jewellery for the moments that become you.</p>
+      <a href="#collection" className="maison-button hero-arrive">Discover the collection <span aria-hidden="true">↗</span></a>
+      <div className="hero-edition hero-arrive"><span>01 / 05</span><span>ROSÉ CŒUR<br/><small>THE SIGNATURE EDIT</small></span></div>
+    </div>
+    <div ref={display} className="maison-display" aria-label="Jewelry display with dimensional metallic sculpture">
+      <div className="sculpture" aria-hidden="true"><div className="sculpture-ring sculpture-one"/><div className="sculpture-ring sculpture-two"/><div className="sculpture-ring sculpture-three"/></div>
+      <div className="jewel-plane"><img src={ring} width={1024} height={1024} alt="Rosé Cœur, a pink heart gemstone ring with silver pavé shoulders" fetchPriority="high"/></div>
+      <span className="display-note">A STUDY IN LIGHT & FORM</span>
+    </div>
+    <div className="hero-baseline"><span>FINE JEWELLERY / VOL. I</span><a href="#story">Our world <span aria-hidden="true">↓</span></a></div>
+  </section>;
 }

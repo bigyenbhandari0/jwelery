@@ -69,7 +69,7 @@ function useProgress(ref: RefObject<HTMLElement | null>) {
 function Header() {
   const { count, setBagOpen } = useShop();
   return (
-    <header className="absolute inset-x-0 top-0 z-30 text-paper">
+    <header className="absolute inset-x-0 top-0 z-30 text-paper maison-header">
       <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-6 md:px-10" aria-label="Main">
         <a href="#top" className="font-display text-lg tracking-[0.3em]">AUREN</a>
         <ul className="hidden gap-10 md:flex">
@@ -100,7 +100,7 @@ function Editorial() {
         <div className="relative z-10 md:col-span-7 scene-reveal">
           <p className="eyebrow mb-8 text-muted-foreground">AUREN — Fine Jewellery</p>
           <h2 className="font-display text-[clamp(2.25rem,6vw,6.75rem)] font-normal uppercase leading-[0.92] tracking-tight">
-            Extraordinary<br />Jewellery.<br /><em className="font-normal">For you.</em>
+            A little rarer.<br /><em className="font-normal">A little more you.</em>
           </h2>
           <p className="mt-10 max-w-sm text-sm leading-relaxed text-muted-foreground">
             A study in light, form, and the pieces we hold close. Discover expressive stones and sculptural silhouettes, imagined for your everyday and your extraordinary.
@@ -125,19 +125,17 @@ function Editorial() {
 
 function Collection() {
   const { openProduct } = useShop();
-  const ref = useRef<HTMLDivElement>(null);
-  const { p, m } = useProgress(ref);
   const pair = [PRODUCTS.marquise, PRODUCTS.eternity];
   return (
     <section id="collection" className="overflow-hidden bg-ink text-paper">
       <div className="mx-auto max-w-[1600px] px-5 pt-24 md:px-10 md:pt-36">
         <div className="mb-14 flex items-end justify-between">
-          <h2 className="font-display text-5xl font-normal md:text-7xl">The Collection</h2>
+          <h2 className="font-display text-5xl font-normal md:text-7xl">Objects of affection</h2>
           <p className="eyebrow hidden text-paper/60 md:block">Vol. I</p>
         </div>
         <div className="grid gap-16 md:grid-cols-2 md:gap-10">
           {pair.map((prod, i) => (
-            <article key={prod.id} className={`scene-reveal ${i === 1 ? "md:mt-32" : ""}`}>
+            <article key={prod.id} className={`scene-reveal ${i === 1 ? "md:mt-20" : ""}`}>
               <button type="button" onClick={() => openProduct(prod.id)} className="group block w-full overflow-hidden" aria-label={`View ${prod.name}`}>
                 <img src={prod.image} alt={prod.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
               </button>
@@ -152,13 +150,7 @@ function Collection() {
           ))}
         </div>
       </div>
-      <div ref={ref} className="ring-journey">
-        <div className="ring-journey-stage">
-          <p className="journey-title font-display" aria-hidden="true" style={{ opacity: Math.max(0, 0.22 - Math.abs(p - 0.5)), transform: `translateX(${(0.5 - p) * 200 * m}px)` }}>ETERNITY</p>
-          <img src={PRODUCTS.eternity.image} alt="Close-up of the square-faced Eternity ring" width={1024} height={1024} loading="lazy" className="journey-ring [mask-image:radial-gradient(closest-side,black_75%,transparent)]" style={{ transform: `scale(${1 + Math.sin(Math.max(0, Math.min(1, (p - 0.25) * 2)) * Math.PI) * 0.55 * m}) rotate(${(p - 0.5) * 24 * m}deg)` }} />
-          <div className="journey-caption"><p className="eyebrow text-paper/50">A study in permanence</p><p className="mt-3 font-display text-3xl italic">Made to hold a moment.</p></div>
-        </div>
-      </div>
+
     </section>
   );
 }
@@ -170,7 +162,7 @@ function EternityFeature() {
     <section className="eternity-section bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-36">
         <div className="scene-reveal order-2 md:order-1 md:col-span-5 md:pr-10">
-          <p className="eyebrow text-muted-foreground">Signature piece</p>
+          <p className="eyebrow text-muted-foreground">THE ETERNITY EDIT</p>
           <h2 className="mt-4 font-display text-6xl font-normal italic md:text-8xl">Eternity</h2>
           <p className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
             A bold square silhouette. A luminous central stone. Eternity brings sculptural presence to a simple gesture — a signature piece designed to hold your attention.
@@ -194,10 +186,10 @@ function Shop() {
   return (
     <section className="bg-paper pb-24 text-ink md:pb-36" aria-labelledby="shop-title">
       <div className="mx-auto max-w-[1600px] border-t border-border px-5 pt-20 md:px-10">
-        <h2 id="shop-title" className="font-display text-4xl font-normal md:text-5xl">Curated pieces</h2>
+        <h2 id="shop-title" className="font-display text-4xl font-normal md:text-5xl">Find your forever</h2>
         <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-8">
           {list.map((p) => (
-            <li key={p.id}>
+            <li key={p.id} className="scene-reveal">
               <button type="button" onClick={() => openProduct(p.id)} className="group block w-full overflow-hidden bg-ink" aria-label={`Quick view ${p.name}`}>
                 <img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </button>
