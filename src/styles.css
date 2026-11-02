@@ -274,3 +274,39 @@ button:disabled { cursor: default; }
  .photo-story .three-editorial h2 { font-size:2.5rem; }
  .photo-story .scene-fallback img[alt="Ring inside a burgundy presentation box"] { top:59%; left:55% !important; width:85vw; }
 }
+
+.jewel-film { height:480svh; background:var(--ink); }
+.jewel-film-stage { position:sticky; top:0; height:100svh; overflow:hidden; isolation:isolate; }
+.film-panel { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.film-panel a { pointer-events:auto; }
+.film-panel[aria-hidden="true"] { visibility:hidden; }
+.film-dark { background:#080808; color:var(--paper); }
+.film-hero-ring { position:absolute; width:min(72vw,640px); left:0; right:0; margin:auto; top:8%; mask-image:radial-gradient(closest-side,black 75%,transparent); }
+.film-intro { position:absolute; bottom:7%; width:100%; text-align:center; }
+.film-intro h1 { font-family:var(--font-display); font-size:clamp(2.6rem,5vw,5rem); font-style:italic; margin:.7rem 0 1rem; }
+.film-box { background:var(--paper); color:var(--ink); display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:5% 7%; gap:3%; }
+.film-box img { width:100%; mix-blend-mode:multiply; }
+.film-editorial h2 { font-family:var(--font-display); font-size:clamp(3rem,7vw,7.5rem); line-height:.95; letter-spacing:-.05em; margin-top:1.5rem; }
+.film-piece { position:absolute; top:18%; bottom:10%; width:50%; text-align:center; }
+.film-piece p { font-family:var(--font-display); font-size:2rem; }
+.film-piece img { width:100%; height:85%; object-fit:contain; mask-image:radial-gradient(closest-side,black 75%,transparent); }
+.film-eternity { position:absolute; bottom:6%; width:100%; text-align:center; font-family:var(--font-display); font-size:clamp(3rem,7vw,7rem); font-style:italic; }
+.film-hand { background:var(--paper); color:var(--ink); display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:5% 8%; }
+.film-hand h2 { font-family:var(--font-display); font-size:clamp(4rem,8vw,8rem); margin:1rem 0 2rem; }
+.film-hand img { width:100%; height:85svh; object-fit:contain; }
+.film-scroll { position:absolute; bottom:4%; right:3%; color:var(--paper); pointer-events:none; }
+@media(max-width:767px) {
+ .jewel-film { height:420svh; }
+ .film-hero-ring { width:100vw; top:22%; }
+ .film-intro { bottom:12%; }
+ .film-box { grid-template-columns:1fr; align-content:center; padding:15% 8% 5%; }
+ .film-editorial h2 { font-size:3.4rem; }
+ .film-box img { width:70%; margin-left:auto; }
+ .film-piece { top:28%; bottom:15%; }
+ .film-piece p { font-size:1.1rem; }
+ .film-hand { grid-template-columns:1fr; padding:12% 8%; }
+ .film-hand > div { position:absolute; top:12%; z-index:1; }
+ .film-hand img { height:80svh; margin-top:20%; }
+ .film-scroll { display:none; }
+}
+@media(prefers-reduced-motion:reduce) { .film-panel img { transform:none !important; } }
