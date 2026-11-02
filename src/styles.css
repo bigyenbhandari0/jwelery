@@ -315,3 +315,20 @@ footer>div { padding-top:5rem; padding-bottom:5rem; }
 .explorer-status { position:absolute; left:10%; right:10%; top:40%; text-align:center; font-size:.85rem; line-height:1.8; }
 .explorer-return { position:absolute; top:65%; left:25%; width:50%; padding:1rem; border:1px solid #bba58960; font-size:.65rem; }
 @media(max-width:767px) { .maison-hero {grid-template-columns:minmax(0,1fr);} .maison-display { height:450px;} .jewel-plane {width:100%;} .explorer-tools .eyebrow {font-size:.5rem;} }
+
+/* Balanced product scale, clearer hierarchy, and a calm gallery rhythm. */
+#collection>div { max-width:1320px; padding-top:6rem; padding-bottom:6rem; }
+#collection .collection-gallery { gap:3.5rem; }
+#collection .collection-piece { padding:0 0 1.8rem; border-bottom:1px solid #bba58935; }
+#collection .collection-image { aspect-ratio:1.12; display:grid; place-items:center; border:1px solid #ffffff0c; background:radial-gradient(ellipse at 50% 60%,#242122 0%,#101012 70%); }
+#collection .collection-image img { width:78%; height:100%; aspect-ratio:auto; object-fit:contain; mask-image:radial-gradient(ellipse,black 56%,transparent 76%); }
+#collection article button:first-child::after { bottom:1rem; right:1rem; opacity:1; transform:none; }
+#collection .collection-piece>div { margin-top:1.5rem; }
+#collection h2 { font-size:clamp(2.5rem,4vw,4.25rem); }
+.collection-piece h3 { font-size:1.8rem; }
+.brand-intro { background:#0b0b0c; }
+.ring-explorer { background:radial-gradient(ellipse at 50% 35%,#262326,#090909 75%); }
+.ring-explorer-stage { height:76%; position:absolute; inset:6% 0 auto; }
+.explorer-tools { border-top:1px solid #bba58925; padding-top:1.2rem; background:#0c0c0de8; }
+.explorer-tools .finish-options button { padding:.6rem .8rem; }
+@media(max-width:767px) { #collection>div {padding-top:4rem;padding-bottom:4rem;} #collection .collection-gallery {gap:2.5rem;} #collection .collection-image {aspect-ratio:1.12;} #collection .collection-image img {width:82%;} .ring-explorer-stage {height:70%;} }

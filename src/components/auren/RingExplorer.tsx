@@ -13,13 +13,15 @@ export function RingExplorer({ onClose }: { onClose: () => void }) {
       const [T,{GLTFLoader},{OrbitControls},{RoomEnvironment}]=await Promise.all([import('three'),import('three/addons/loaders/GLTFLoader.js'),import('three/addons/controls/OrbitControls.js'),import('three/addons/environments/RoomEnvironment.js')]);
       if(cancelled||!host.current)return;
       const renderer=new T.WebGLRenderer({antialias:true,alpha:true});
-      renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
+      renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.85;
       host.current.appendChild(renderer.domElement);
       const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.01,100);
-      const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.enableZoom=false;
+      const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.enableZoom=false;controls.minPolarAngle=.3;controls.maxPolarAngle=Math.PI*.8;
       const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);room.dispose();scene.environment=env.texture;
-      scene.add(new T.HemisphereLight(0xffffff,0x8c7161,2));
-      const light=new T.DirectionalLight(0xffffff,3);light.position.set(2,4,5);scene.add(light);
+      scene.add(new T.HemisphereLight(0xffffff,0x302735,.28));
+      const light=new T.DirectionalLight(0xfff3df,2);light.position.set(2,4,5);scene.add(light);
+      const rim=new T.DirectionalLight(0xb8d5ff,2.5);rim.position.set(-4,2,-3);scene.add(rim);
+      const fill=new T.DirectionalLight(0xffffff,.7);fill.position.set(-3,-1,4);scene.add(fill);
       let raf=0,visible=true;
       const resize=()=>{if(!host.current)return;renderer.setSize(host.current.clientWidth,host.current.clientHeight);camera.aspect=host.current.clientWidth/host.current.clientHeight;camera.updateProjectionMatrix();};
       const ro=new ResizeObserver(resize);ro.observe(host.current);resize();
@@ -31,8 +33,8 @@ export function RingExplorer({ onClose }: { onClose: () => void }) {
       if(cancelled){model.scene.traverse(o=>{if(o instanceof T.Mesh)o.geometry.dispose();});return;}
       const bounds=new T.Box3().setFromObject(model.scene),center=bounds.getCenter(new T.Vector3()),size=bounds.getSize(new T.Vector3());
       model.scene.position.sub(center);const root=new T.Group();root.add(model.scene);root.scale.setScalar(2.8/Math.max(size.x,size.y,size.z));scene.add(root);
-      model.scene.traverse(o=>{if(o instanceof T.Mesh){const original=Array.isArray(o.material)?o.material[0]:o.material;const gem=/diamond|stone|gem/i.test(`${o.name} ${original?.name}`);if(gem){o.material=new T.MeshPhysicalMaterial({color:0xffffff,roughness:.04,metalness:.05,transmission:.65,thickness:.3,ior:2.3,clearcoat:1,envMapIntensity:2});}else{const m=new T.MeshStandardMaterial({color:0xe7e5e1,metalness:1,roughness:.14,envMapIntensity:1.8});o.material=m;materials.push(m);}}});
-      const reset=()=>{camera.position.set(3,2.3,5.5);controls.target.set(0,0,0);controls.update();};reset();
+      model.scene.traverse(o=>{if(o instanceof T.Mesh){const original=Array.isArray(o.material)?o.material[0]:o.material;const gem=/diamond|stone|gem/i.test(`${o.name} ${original?.name}`);if(gem){o.material=new T.MeshPhysicalMaterial({color:0xf1e5ef,roughness:.015,metalness:0,transmission:1,thickness:.65,ior:2.333,dispersion:.045,attenuationColor:0xece4f5,attenuationDistance:1.5,clearcoat:1,envMapIntensity:1.4});}else{const m=new T.MeshStandardMaterial({color:0xe7e5e1,metalness:1,roughness:.09,envMapIntensity:1.15});o.material=m;materials.push(m);}}});
+      const reset=()=>{camera.position.set(0,3.8,6.8);controls.target.set(0,0,0);controls.update();};reset();
       api.current={finish:(color)=>materials.forEach(m=>m.color.set(color)),reset,spin:v=>{controls.autoRotate=v;controls.autoRotateSpeed=1.3;}};
       setStatus('');animate();
     };

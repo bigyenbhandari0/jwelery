@@ -134,10 +134,10 @@ function Collection() {
           <h2 className="font-display text-5xl font-normal md:text-7xl">Objects of affection</h2>
           <p className="eyebrow hidden text-paper/60 md:block">THE PRIVATE EDIT / VOL. I</p>
         </div>
-        <div className="grid gap-16 md:grid-cols-2 md:gap-10">
+        <div className="collection-gallery grid gap-12 md:grid-cols-2 md:gap-12">
           {pair.map((prod, i) => (
-            <article key={prod.id} className={`scene-reveal ${i === 1 ? "md:mt-20" : ""}`}>
-              <button type="button" onClick={() => openProduct(prod.id)} className="group block w-full overflow-hidden" aria-label={`View ${prod.name}`}>
+            <article key={prod.id} className="scene-reveal collection-piece">
+              <button type="button" onClick={() => openProduct(prod.id)} className="collection-image group block w-full overflow-hidden" aria-label={`View ${prod.name}`}>
                 <img src={prod.image} alt={prod.name} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
               </button>
               <div className="mt-6 flex items-baseline justify-between gap-4">

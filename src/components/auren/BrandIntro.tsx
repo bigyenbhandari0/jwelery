@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 export function BrandIntro() {
-  const [phase, setPhase] = useState<'hidden' | 'playing' | 'leaving'>('hidden');
+  const [phase, setPhase] = useState<'hidden' | 'playing' | 'leaving'>('playing');
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    try { if (sessionStorage.getItem('auren-intro-v1')) return; } catch { /* optional */ }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setPhase('hidden'); return; }
+    try { if (sessionStorage.getItem('auren-intro-v1')) { setPhase('hidden'); return; } } catch { /* optional */ }
     setPhase('playing');
     const finish = setTimeout(() => setPhase('leaving'), 1800);
     const hide = setTimeout(() => {
