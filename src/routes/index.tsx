@@ -118,9 +118,9 @@ function Editorial() {
   return (
     <section ref={ref} id="story" className="overflow-hidden bg-paper text-ink">
       <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-24 md:grid-cols-12 md:px-10 md:py-40">
-        <div className="md:col-span-7">
+        <div className="relative z-10 md:col-span-7">
           <p className="eyebrow mb-8 text-muted-foreground">AUREN — Fine Jewellery</p>
-          <h2 className="font-display text-[clamp(2.75rem,8.5vw,8.5rem)] font-normal uppercase leading-[0.92] tracking-tight">
+          <h2 className="font-display text-[clamp(2.5rem,7vw,7.5rem)] font-normal uppercase leading-[0.92] tracking-tight">
             Extraordinary<br />Jewellery.<br /><em className="font-normal">For you.</em>
           </h2>
           <p className="mt-10 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -128,7 +128,7 @@ function Editorial() {
           </p>
           <a href="#collection" className="eyebrow link-line mt-8 inline-block">Discover the collection</a>
         </div>
-        <div className="md:col-span-5 md:mt-40">
+        <div className="md:col-span-5 md:mt-48">
           <img
             src={ringBox}
             alt="Open burgundy velvet box holding the pink heart ring"
