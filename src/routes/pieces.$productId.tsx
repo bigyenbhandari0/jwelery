@@ -24,7 +24,7 @@ function ProductPage() {
     <main>
       <div className="piece-breadcrumb"><Link to="/">Maison</Link><span>/</span><span>{p.name}</span></div>
       <section className="piece-layout">
-        <div className="piece-visual"><p className="eyebrow">THE DETAILS, UP CLOSE</p><div className="tryon-stage"><img src={p.image} alt={`${p.name} studio view`} className="tryon-jewel"/></div><Link to="/" hash="boutique" className="product-atelier-link">Personalize your inquiry at the atelier ↗</Link></div>
+        <div className="piece-visual"><p className="eyebrow">THE DETAILS, UP CLOSE</p><div className="tryon-stage"><img src={p.image} alt={`${p.name} studio view`} className="tryon-jewel" style={{viewTransitionName:`piece-${p.id}`}}/></div><Link to="/" hash="boutique" className="product-atelier-link">Personalize your inquiry at the atelier ↗</Link></div>
         <div className="piece-info"><p className="eyebrow">AUREN / THE SIGNATURE COLLECTION</p><h1>{p.name}</h1><p className="piece-price">{formatNPR(p.price)} <small>Demo price</small></p><p className="piece-description">{p.description}</p><div className="piece-divider"/>
           <fieldset><legend>Choose your size <span>US ring sizes</span></legend><div className="piece-sizes">{SIZES.map(s=><button key={s} aria-pressed={size===s} onClick={()=>{setSize(s);setNotice('');}}>{s}</button>)}</div></fieldset>
           <label className="piece-qty">Quantity <select value={quantity} onChange={e=>setQuantity(+e.target.value)}>{[1,2,3,4,5].map(n=><option key={n}>{n}</option>)}</select></label>
@@ -32,7 +32,7 @@ function ProductPage() {
           <details open><summary>The design</summary><p>{p.description} Explore the studio image for a closer look, then visit the atelier to prepare a personal inquiry.</p></details><details><summary>Care & keeping</summary><p>Store jewellery separately in a soft pouch. Avoid knocks, abrasives, and harsh chemicals. Material-specific care depends on the final product specifications.</p></details><details><summary>Your personal inquiry</summary><p>Save a piece to your selection, or visit the atelier to add metal, gemstone, and engraving preferences. Copy the details and share them with your chosen jeweller for confirmation.</p></details>
         </div>
       </section>
-      <section className="piece-related"><p className="eyebrow">CONTINUE YOUR DISCOVERY</p><h2>A beautiful next chapter.</h2><div>{related.map(r=><Link key={r.id} to="/pieces/$productId" params={{productId:r.id}}><img src={r.image} alt={r.name} loading="lazy"/><h3>{r.name}</h3><p>{formatNPR(r.price)} · demo</p><span>Discover ↗</span></Link>)}</div></section>
+      <section className="piece-related"><p className="eyebrow">CONTINUE YOUR DISCOVERY</p><h2>A beautiful next chapter.</h2><div>{related.map(r=><Link viewTransition key={r.id} to="/pieces/$productId" params={{productId:r.id}}><img src={r.image} alt={r.name} loading="lazy"/><h3>{r.name}</h3><p>{formatNPR(r.price)} · demo</p><span>Discover ↗</span></Link>)}</div></section>
     </main><footer className="piece-footer"><Link to="/">AUREN</Link><p>Objects of affection. Made for your extraordinary.</p><Link to="/" hash="collection">Return to collection ↗</Link></footer>
   </div>;
 }

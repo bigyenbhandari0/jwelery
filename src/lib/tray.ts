@@ -1,0 +1,7 @@
+import { useEffect, useState } from 'react';
+import { getProduct } from './shop';
+export type TrayPiece={id:string;metal?:string;stone?:string;size?:string;engraving?:string};
+const KEY='auren-private-tray';
+export function readTray():TrayPiece[]{try{const value:unknown=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(value))return [];return value.filter((x):x is TrayPiece=>!!x&&typeof x.id==='string'&&!!getProduct(x.id)).slice(0,5).map(x=>({id:x.id,...Object.fromEntries(['metal','stone','size','engraving'].filter(k=>typeof (x as unknown as Record<string,unknown>)[k]==='string').map(k=>[k,String((x as unknown as Record<string,unknown>)[k]).slice(0,80)]))}));}catch{return [];}}
+export function writeTray(items:TrayPiece[]){try{localStorage.setItem(KEY,JSON.stringify(items));}catch{/* Current-page updates remain usable. */}window.dispatchEvent(new CustomEvent('auren-tray',{detail:items}));}
+export function useTray(){const [items,setItems]=useState<TrayPiece[]>([]);useEffect(()=>{setItems(readTray());const update=(e:Event)=>setItems((e as CustomEvent<TrayPiece[]>).detail??readTray());const storage=()=>setItems(readTray());window.addEventListener('auren-tray',update);window.addEventListener('storage',storage);return()=>{window.removeEventListener('auren-tray',update);window.removeEventListener('storage',storage);};},[]);return {items,save:writeTray,add:(piece:TrayPiece)=>writeTray([...readTray().filter(x=>x.id!==piece.id),piece]),remove:(id:string)=>writeTray(readTray().filter(x=>x.id!==id))};}

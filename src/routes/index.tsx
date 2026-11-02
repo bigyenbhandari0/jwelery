@@ -1,3 +1,5 @@
+import { ShowroomStories } from "@/components/auren/ShowroomStories";
+import { useTray } from "@/lib/tray";
 import { BoutiqueTools } from "@/components/auren/BoutiqueTools";
 import { BrandIntro } from "@/components/auren/BrandIntro";
 import { CinematicScene } from "@/components/auren/CinematicScene";
@@ -77,7 +79,7 @@ function Header() {
         <ul className="hidden gap-10 md:flex">
           <li><a className="eyebrow link-line" href="#collection">Collection</a></li>
           <li><a className="eyebrow link-line" href="#story">Our Story</a></li>
-          <li><a className="eyebrow link-line" href="#boutique">Your atelier</a></li>
+          <li><a className="eyebrow link-line" href="#boutique">Your atelier</a></li><li><button className="eyebrow link-line" onClick={()=>{window.dispatchEvent(new Event("auren-open-tray"));document.getElementById("boutique")?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});}}>Your tray</button></li>
         </ul>
         <button type="button" onClick={() => setBagOpen(true)} className="eyebrow flex items-center gap-2" aria-label={`Open bag, ${count} items`}>
           <ShoppingBag className="h-4 w-4" strokeWidth={1.25} />
@@ -183,6 +185,7 @@ function EternityFeature() {
 }
 
 function Shop() {
+  const tray=useTray();
   const gallery = useRef<HTMLElement>(null);
   const [filter, setFilter] = useState('All pieces');
   const catalogue = [PRODUCTS.coeur, PRODUCTS.bordeaux, PRODUCTS.band, PRODUCTS.marquise, PRODUCTS.eternity];
@@ -204,11 +207,12 @@ function Shop() {
         <div className="gallery-toolbar"><div className="collection-filters" aria-label="Filter jewelry">{['All pieces','Colour stories','Statement rings','Everyday brilliance'].map(label=><button key={label} type="button" aria-pressed={filter===label} onClick={()=>setFilter(label)}>{label}</button>)}</div><p className="eyebrow gallery-count" role="status">{String(list.length).padStart(2,'0')} {list.length===1?'piece':'pieces'}</p></div>
         <ul className={`catalog-grid ${filter==='All pieces'?'catalog-complete':''}`} key={filter}>
           {list.map((p,i)=><li key={p.id} className="catalog-card" style={{transitionDelay:`${(i%3)*85}ms`}}>
-            <Link to="/pieces/$productId" params={{productId:p.id}} className="catalog-link" aria-label={`Discover ${p.name}`}>
-              <div className="catalog-image"><span className="catalog-number">No. {String(catalogue.indexOf(p)+1).padStart(2,'0')}</span><span className="catalog-category">{p.id==='band'?'THE EVERYDAY ICON':p.id==='coeur'||p.id==='bordeaux'?'A COLOUR STORY':'SCULPTURAL EXPRESSION'}</span><img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy"/><span className="catalog-reveal">Explore the piece <span aria-hidden="true">↗</span></span></div>
+            <Link viewTransition to="/pieces/$productId" params={{productId:p.id}} className="catalog-link" aria-label={`Discover ${p.name}`}>
+              <div className="catalog-image"><span className="catalog-number">No. {String(catalogue.indexOf(p)+1).padStart(2,'0')}</span><span className="catalog-category">{p.id==='band'?'THE EVERYDAY ICON':p.id==='coeur'||p.id==='bordeaux'?'A COLOUR STORY':'SCULPTURAL EXPRESSION'}</span><img src={p.image} alt={p.name} width={1024} height={1024} loading="lazy" style={{viewTransitionName:`piece-${p.id}`}}/><span className="catalog-reveal">Explore the piece <span aria-hidden="true">↗</span></span></div>
               <div className="catalog-details"><div><h3>{p.name}</h3><p>{p.id==='band'?'Quiet brilliance, every day':p.id==='coeur'||p.id==='bordeaux'?'A vivid expression of you':'A silhouette to remember'}</p></div><div className="catalog-price"><span>{formatNPR(p.price)}</span><small>Illustrative price</small></div></div>
               <span className="catalog-bottom"><span>Discover piece</span><span aria-hidden="true">↗</span></span>
             </Link>
+            <button className="catalog-tray-button" aria-pressed={tray.items.some(x=>x.id===p.id)} onClick={()=>tray.items.some(x=>x.id===p.id)?tray.remove(p.id):tray.add({id:p.id})}>{tray.items.some(x=>x.id===p.id)?"Kept in your tray ✓":"Keep in my tray +"}</button>
           </li>)}
         </ul>
         <div className="gallery-closing"><span className="eyebrow">A PERSONAL CHOICE, BEAUTIFULLY CONSIDERED.</span><a href="#boutique">Find your piece with the gift concierge <span aria-hidden="true">→</span></a></div>
@@ -267,6 +271,7 @@ function Page() {
         <section className="maison-manifesto scene-reveal" aria-label="The AUREN philosophy"><p className="eyebrow">THE AUREN POINT OF VIEW</p><h2>Less ordinary.<br/><em>More meaningful.</em></h2><p>A glint of light. A feeling you keep.<br/>Pieces that become part of your story.</p><a className="eyebrow link-line" href="#collection">Explore your next chapter ↗</a><span className="manifesto-seal" aria-hidden="true">A</span></section>
         <Shop />
         <BoutiqueTools />
+        <ShowroomStories />
       </main>
       <Footer />
     </>
