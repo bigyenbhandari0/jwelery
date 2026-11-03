@@ -1,5 +1,5 @@
 import { useEffect,useRef,useState } from 'react';
-const KEY='auren-ivory-welcome-v1';
+const KEY='auren-ivory-welcome-v2';
 
 /** A brief brand moment, independent of page and image loading. */
 export function BrandIntro(){
@@ -25,7 +25,7 @@ export function BrandIntro(){
  },[]);
  if(phase==='hidden')return null;
  return <div className={`brand-intro ${phase}`} role="dialog" aria-modal="true" aria-label="Welcome to AUREN" onKeyDown={e=>{if(e.key==='Escape')skip();if(e.key==='Tab'){e.preventDefault();enter.current?.focus();}}}>
-  <div className="intro-composition"><div className="intro-monogram" aria-hidden="true"><span>A</span></div><p className="intro-wordmark">{'AUREN'.split('').map((letter,i)=><span key={i} style={{animationDelay:`${120+i*80}ms`}}>{letter}</span>)}</p><p className="intro-identity">FINE JEWELLERY</p><div className="intro-hairline" aria-hidden="true"/><p className="intro-promise">The Art of Being Remembered.</p></div>
+  <div className="intro-composition"><p className="intro-wordmark">{'AUREN'.split('').map((letter,i)=><span key={i} style={{animationDelay:`${120+i*80}ms`}}>{letter}</span>)}</p><p className="intro-identity">FINE JEWELLERY</p><p className="intro-promise">The Art of Being Remembered.</p></div>
   <span className="intro-edition">THE PRIVATE COLLECTION / VOL. I</span><button ref={enter} className="intro-enter" onClick={skip}>Enter the maison <span aria-hidden="true">↗</span></button>
  </div>;
 }

@@ -2,7 +2,7 @@ import { renderToString } from 'react-dom/server';
 import { render,screen,fireEvent,act,cleanup } from '@testing-library/react';
 import { afterEach,beforeEach,describe,expect,it,vi } from 'vitest';
 import { BrandIntro } from '@/components/auren/BrandIntro';
-const key='auren-ivory-welcome-v1';
+const key='auren-ivory-welcome-v2';
 describe('ivory welcome',()=>{
  beforeEach(()=>{vi.useFakeTimers();sessionStorage.clear();document.documentElement.removeAttribute('data-auren-intro');document.body.style.overflow='';vi.stubGlobal('matchMedia',()=>({matches:false,addEventListener:vi.fn(),removeEventListener:vi.fn()}));});
  afterEach(()=>{cleanup();vi.useRealTimers();vi.unstubAllGlobals();document.body.style.overflow='';});
