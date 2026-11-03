@@ -1,9 +1,4 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import heartRing from "@/assets/heart-ring-ivory.webp";
-import ornateRing from "@/assets/ornate-ring-ivory.webp";
-import squareRing from "@/assets/square-ring-ivory.webp";
-import bandRing from "@/assets/band-ring-ivory.webp";
-import rubyRing from "@/assets/ruby-ring-ivory.webp";
 
 export type Product = {
   id: string;
@@ -18,22 +13,22 @@ export const PRODUCTS = {
     id: "solitaire",
     name: "Atelier Solitaire",
     price: 0,
-    image: "/films/atelier-solitaire.webp",
+    image: "/editorial/solitaire-satin.svg",
     description: "A clear-centre solitaire with a stone-set band, shown in the accompanying studio film. An editorial demo design; materials and availability require confirmation.",
   },
   coeur: {
     id: "coeur",
     name: "Rosé Cœur",
     price: 485000,
-    image: heartRing,
+    image: "/editorial/coeur-satin.svg",
     description:
-      "A heart-cut pink stone held in four polished claws, flanked by pear-cut accents and a pavé-set shoulder.",
+      "A heart-cut pink stone held in polished claws, flanked by pear-cut accents and a pavé-set shoulder.",
   },
   marquise: {
     id: "marquise",
     name: "Marquise Noble",
     price: 362000,
-    image: ornateRing,
+    image: "/editorial/marquise-satin.svg",
     description:
       "A pointed marquise stone framed by hand-pierced filigree scrolls — an heirloom silhouette, finely detailed.",
   },
@@ -41,7 +36,7 @@ export const PRODUCTS = {
     id: "eternity",
     name: "Eternity",
     price: 298000,
-    image: squareRing,
+    image: "/editorial/eternity-satin.svg",
     description:
       "A substantial silver ring with a deep black square face and a single clear stone set at its centre. Engraved shoulders, weighty and precise.",
   },
@@ -49,14 +44,14 @@ export const PRODUCTS = {
     id: "band",
     name: "Infinite Band",
     price: 215000,
-    image: bandRing,
+    image: "/editorial/band-satin.svg",
     description: "A continuous circle of round brilliant stones in a fine shared-claw setting.",
   },
   bordeaux: {
     id: "bordeaux",
     name: "Bordeaux Halo",
     price: 412000,
-    image: rubyRing,
+    image: "/editorial/bordeaux-satin.svg",
     description: "A deep red oval stone encircled by a halo of brilliants on a pavé band.",
   },
 } satisfies Record<string, Product>;
