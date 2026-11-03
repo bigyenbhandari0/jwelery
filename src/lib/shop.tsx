@@ -14,6 +14,13 @@ export type Product = {
 };
 
 export const PRODUCTS = {
+  solitaire: {
+    id: "solitaire",
+    name: "Atelier Solitaire",
+    price: 0,
+    image: "/films/atelier-solitaire.webp",
+    description: "A clear-centre solitaire with a stone-set band, shown in the accompanying studio film. An editorial demo design; materials and availability require confirmation.",
+  },
   coeur: {
     id: "coeur",
     name: "Rosé Cœur",
@@ -59,7 +66,7 @@ export const getProduct = (id: string): Product | undefined =>
 
 export const SIZES = ["5", "6", "7", "8", "9", "10"];
 
-export const formatNPR = (n: number) => `NPR ${n.toLocaleString("en-IN")}`;
+export const formatNPR = (n: number) => n>0?`NPR ${n.toLocaleString("en-IN")}`:"Request a quote";
 
 export type BagItem = { id: string; size: string; qty: number };
 
