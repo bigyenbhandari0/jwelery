@@ -2,7 +2,7 @@ import { useEffect,useRef,useState } from 'react';
 const KEY='auren-ivory-welcome-v4';
 
 /** The wordmark itself travels into the hero's background typography. */
-export function BrandIntro(){
+export function BrandIntro({replay=false}:{replay?:boolean}){
  const [phase,setPhase]=useState<'playing'|'leaving'|'hidden'>('playing');
  const enter=useRef<HTMLButtonElement>(null),wordmark=useRef<HTMLParagraphElement>(null),cover=useRef<HTMLDivElement>(null);
  const release=useRef<()=>void>(()=>{}),timers=useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -12,7 +12,7 @@ export function BrandIntro(){
  useEffect(()=>{
   const preference=matchMedia('(prefers-reduced-motion: reduce)');
   let seen=false;try{seen=sessionStorage.getItem(KEY)==='seen';}catch{}
-  if(preference.matches||seen||location.hash){finishIntro();return;}
+  if(preference.matches||(!replay&&(seen||location.hash))){finishIntro();return;}
   window.dispatchEvent(new Event('auren-intro-start'));
   const previous=document.activeElement instanceof HTMLElement?document.activeElement:null;
   const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
