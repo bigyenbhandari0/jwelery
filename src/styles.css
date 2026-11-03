@@ -263,3 +263,6 @@ html:not([data-auren-intro="skip"]) .maison-ring img{opacity:0;translate:0 130px
 .ring-arriving .maison-ring img{animation:ring-rise 1.1s cubic-bezier(.2,.7,.2,1) both}
 @media(max-width:600px){.brand-morph .intro-wordmark{font-size:12vw}.maison-watermark{letter-spacing:.06em}}
 @media(prefers-reduced-motion:reduce){.brand-intro.brand-morph{display:none}.ring-arriving .maison-ring img{animation:none}html:not([data-auren-intro="skip"]) .maison-ring img{opacity:1;translate:none}html:not([data-auren-intro="skip"]) .maison-watermark{visibility:visible}}
+.ring-arriving .maison-ring img{animation-name:intro-ring-rise}
+@keyframes intro-ring-rise{0%{opacity:0;translate:0 60svh;transform:scale(.28)}25%{opacity:1}100%{opacity:1;translate:0 0;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.ring-arriving .maison-ring img{animation:none;transform:none}}
