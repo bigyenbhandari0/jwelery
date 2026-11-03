@@ -1,0 +1,4 @@
+import {render,screen,fireEvent,cleanup} from '@testing-library/react';
+import {afterEach,describe,it,expect} from 'vitest';
+import {AtelierFilm} from '@/components/auren/AtelierFilm';
+describe('editorial film',()=>{afterEach(cleanup);it('loads real footage only after opening and labels its different design',()=>{const {container}=render(<AtelierFilm/>);expect(container.querySelector('video')).toBeNull();fireEvent.click(screen.getByRole('button',{name:/Watch the atelier film/}));expect(screen.getByRole('dialog')).toBeTruthy();expect(screen.getByText(/different design from the collection/)).toBeTruthy();expect(document.querySelector('video source')?.getAttribute('src')).toBe('/films/atelier-solitaire.mp4');fireEvent.click(screen.getByRole('button',{name:'Close'}));expect(document.querySelector('video')).toBeNull();});});
