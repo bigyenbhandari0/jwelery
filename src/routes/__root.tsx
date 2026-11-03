@@ -104,7 +104,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{__html: "try{if(sessionStorage.getItem('auren-ivory-welcome-v3')==='seen'||matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash)document.documentElement.setAttribute('data-auren-intro','skip')}catch(e){}"}} />
+        <script dangerouslySetInnerHTML={{__html: "try{if(sessionStorage.getItem('auren-ivory-welcome-v4')==='seen'||matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash)document.documentElement.setAttribute('data-auren-intro','skip')}catch(e){}"}} />
         <HeadContent />
       </head>
       <body>
