@@ -1,5 +1,5 @@
 import { useEffect,useRef,useState } from 'react';
-const KEY='auren-ivory-welcome-v4';
+const KEY='auren-runway-welcome-v1';
 
 /** The wordmark itself travels into the hero's background typography. */
 export function BrandIntro({replay=false}:{replay?:boolean}){
@@ -19,7 +19,7 @@ export function BrandIntro({replay=false}:{replay?:boolean}){
   release.current=()=>{document.body.style.overflow=overflow;};
   enter.current?.focus({preventScroll:true});
   const measure=()=>{
-   const target=document.querySelector('.maison-watermark'),source=wordmark.current;
+   const target=document.querySelector('[data-intro-target]'),source=wordmark.current;
    if(!target||!source||!cover.current)return;
    const end=target.getBoundingClientRect(),start=source.getBoundingClientRect();
    // Both layers use the same font and spacing. The target is measured, not guessed.
@@ -29,15 +29,15 @@ export function BrandIntro({replay=false}:{replay?:boolean}){
   };
   measure();let live=true;document.fonts?.ready.then(()=>{if(live&&cover.current?.classList.contains('playing'))measure();});
   const resize=()=>{if(cover.current?.classList.contains('playing'))measure();};window.addEventListener('resize',resize);
-  const leave=setTimeout(()=>{remember();setPhase('leaving');},1600);
-  const finish=setTimeout(finishIntro,2600);timers.current=[leave,finish];
+  const leave=setTimeout(()=>{remember();setPhase('leaving');},1100);
+  const finish=setTimeout(finishIntro,2000);timers.current=[leave,finish];
   const changed=()=>{if(preference.matches){remember();finishIntro();}};
   preference.addEventListener('change',changed);
   return()=>{live=false;clearTimeout(leave);clearTimeout(finish);window.removeEventListener('resize',resize);preference.removeEventListener('change',changed);document.body.style.overflow=overflow;if(previous&&previous!==document.body)previous.focus({preventScroll:true});};
  },[]);
  if(phase==='hidden')return null;
  return <div ref={cover} className={`brand-intro brand-morph ${phase}`} role="dialog" aria-modal="true" aria-label="Welcome to AUREN" onKeyDown={e=>{if(e.key==='Escape')skip();if(e.key==='Tab'){e.preventDefault();enter.current?.focus();}}}>
-  <div className="intro-composition"><p ref={wordmark} className="intro-wordmark" aria-label="AUREN">{'AUREN'.split('').map((letter,index)=><span key={letter} aria-hidden="true" style={{animationDelay:`${80+index*110}ms`}}>{letter}</span>)}</p><p className="sr-only">The Art of Being Remembered.</p></div>
+  <div className="intro-composition"><p ref={wordmark} className="intro-wordmark" aria-label="AUREN"><span>AUREN</span></p><p className="sr-only">For every version of you.</p></div>
   <button ref={enter} className="intro-enter" onClick={skip}>Enter the maison <span aria-hidden="true">↗</span></button>
  </div>;
 }
