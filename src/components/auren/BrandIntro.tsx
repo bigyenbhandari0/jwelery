@@ -27,7 +27,7 @@ export function BrandIntro({replay=false}:{replay?:boolean}){
    cover.current.style.setProperty('--intro-y',`${end.top+end.height/2-(start.top+start.height/2)}px`);
    cover.current.style.setProperty('--intro-scale',String(end.width/Math.max(1,start.width)));
   };
-  measure();let live=true;document.fonts?.ready.then(()=>{if(live)measure();});
+  measure();let live=true;document.fonts?.ready.then(()=>{if(live&&cover.current?.classList.contains('playing'))measure();});
   const resize=()=>{if(cover.current?.classList.contains('playing'))measure();};window.addEventListener('resize',resize);
   const leave=setTimeout(()=>{remember();setPhase('leaving');},1600);
   const finish=setTimeout(finishIntro,2600);timers.current=[leave,finish];
