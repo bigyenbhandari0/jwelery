@@ -7,10 +7,11 @@ import { PRODUCTS } from '@/lib/shop';
 export function MaisonOpening({onView,onReplay}:{onView:()=>void;onReplay:()=>void}) {
  const section=useRef<HTMLElement>(null);
  useEffect(()=>{
+  const reveal=()=>{section.current?.classList.remove('ring-arriving');requestAnimationFrame(()=>section.current?.classList.add('ring-arriving'));};const conceal=()=>section.current?.classList.remove('ring-arriving');window.addEventListener('auren-intro-start',conceal);window.addEventListener('auren-intro-complete',reveal);
   const media=matchMedia('(prefers-reduced-motion: reduce)');let frame=0;
   const update=()=>{frame=0;const el=section.current;if(!el)return;const rect=el.getBoundingClientRect();const distance=Math.max(1,el.offsetHeight-innerHeight);el.style.setProperty('--journey',String(media.matches?1:Math.max(0,Math.min(1,-rect.top/distance))));};
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};update();addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule);media.addEventListener('change',schedule);
-  return()=>{removeEventListener('scroll',schedule);removeEventListener('resize',schedule);media.removeEventListener('change',schedule);cancelAnimationFrame(frame);};
+  return()=>{window.removeEventListener('auren-intro-start',conceal);window.removeEventListener('auren-intro-complete',reveal);removeEventListener('scroll',schedule);removeEventListener('resize',schedule);media.removeEventListener('change',schedule);cancelAnimationFrame(frame);};
  },[]);
  return <section id="top" className="maison-opening" ref={section} aria-label="The AUREN signature collection"><div className="maison-stage">
   <span className="maison-watermark" aria-hidden="true">AUREN</span>
