@@ -37,7 +37,7 @@ export function BrandIntro({replay=false}:{replay?:boolean}){
  },[]);
  if(phase==='hidden')return null;
  return <div ref={cover} className={`brand-intro brand-morph ${phase}`} role="dialog" aria-modal="true" aria-label="Welcome to AUREN" onKeyDown={e=>{if(e.key==='Escape')skip();if(e.key==='Tab'){e.preventDefault();enter.current?.focus();}}}>
-  <div className="intro-composition"><p ref={wordmark} className="intro-wordmark" aria-label="AUREN"><span>AUREN</span></p><p className="sr-only">The Art of Being Remembered.</p></div>
+  <div className="intro-composition"><p ref={wordmark} className="intro-wordmark" aria-label="AUREN">{'AUREN'.split('').map((letter,index)=><span key={letter} aria-hidden="true" style={{animationDelay:`${80+index*110}ms`}}>{letter}</span>)}</p><p className="sr-only">The Art of Being Remembered.</p></div>
   <button ref={enter} className="intro-enter" onClick={skip}>Enter the maison <span aria-hidden="true">↗</span></button>
  </div>;
 }
