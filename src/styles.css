@@ -253,7 +253,9 @@ html[data-auren-intro="skip"] .brand-intro {display:none;}
 .brand-morph::before{content:'';position:absolute;inset:0;background:#f6f2ea;opacity:1;transition:opacity .8s cubic-bezier(.4,0,.2,1)}
 .brand-morph .intro-composition{position:relative;transform:none;text-align:center}
 .brand-morph .intro-wordmark{font-family:var(--font-display);font-size:6vw;font-weight:400;line-height:1;letter-spacing:.06em;gap:0;padding:0;margin:0;display:block;clip-path:none;animation:none;transform-origin:center;transform:translate(0,0) scale(1);color:#29231f;transition:transform .85s cubic-bezier(.76,0,.24,1),color .85s ease;will-change:transform}
-.brand-morph .intro-wordmark>span{display:block;animation:wordmark-type .7s steps(5,end) .1s both;clip-path:inset(0 100% 0 0)}
+.brand-morph .intro-wordmark>span{display:inline-block;clip-path:none;animation:auren-letter-reveal .34s cubic-bezier(.2,.65,.3,1) both}
+@keyframes auren-letter-reveal{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.brand-morph .intro-wordmark>span{animation:none;opacity:1}}
 .brand-morph.leaving::before{opacity:0}
 .brand-morph.leaving .intro-wordmark{transform:translate(var(--intro-x),var(--intro-y)) scale(var(--intro-scale));color:#e9e3d9}
 .brand-morph .intro-enter{transition:opacity .2s;z-index:1}.brand-morph.leaving .intro-enter{opacity:0;pointer-events:none}
