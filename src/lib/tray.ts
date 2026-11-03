@@ -6,7 +6,7 @@ export function parseTray(value:unknown):TrayPiece[]{
  if(!Array.isArray(value))return [];
  const result=new Map<string,TrayPiece>();
  for(const valueItem of value){if(!valueItem||typeof valueItem!=='object')continue;const item=valueItem as Record<string,unknown>;if(typeof item['id']!=='string'||!getProduct(item['id']))continue;const safe:TrayPiece={id:item['id']};for(const key of ['metal','stone','size','engraving'] as const){if(typeof item[key]==='string')safe[key]=item[key].slice(0,key==='engraving'?500:80);}if(Number.isInteger(item['qty'])&&Number(item['qty'])>0)safe.qty=Math.min(9,Number(item['qty']));result.set(safe.id,safe);}
- return [...result.values()].slice(0,5);
+ return [...result.values()].slice(0,20);
 }
 export function readTray():TrayPiece[]{try{memory=parseTray(JSON.parse(localStorage.getItem(KEY)||'[]'));}catch{/* Keep the current session usable if storage is unavailable. */}return memory;}
 export function writeTray(items:TrayPiece[]){memory=parseTray(items);try{localStorage.setItem(KEY,JSON.stringify(memory));}catch{/* In-memory selection remains usable. */}window.dispatchEvent(new CustomEvent('auren-tray',{detail:memory}));}
