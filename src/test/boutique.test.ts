@@ -15,5 +15,6 @@ describe('private boutique',()=>{
    const products=Object.values(PRODUCTS);expect(recommendProducts(products,250000,'Colourful').map(p=>p.id)).toEqual(['band']);
    const picks=recommendProducts(products,500000,'Colourful');expect(picks.slice(0,2).map(p=>p.id).sort()).toEqual(['bordeaux','coeur']);expect(picks.every(p=>p.price<=500000)).toBe(true);
  });
+ it('keeps the featured film design quote-only and retains all saved collection pieces',()=>{expect(PRODUCTS.solitaire.image).toBe('/films/atelier-solitaire.webp');expect(inquiryFor([{id:'solitaire'}])).toContain('Request a quote');expect(inquiryFor([{id:'solitaire'}])).not.toContain('NPR 0');expect(parseTray(Object.values(PRODUCTS).map(p=>({id:p.id})))).toHaveLength(Object.keys(PRODUCTS).length);});
  it('has no invented contact destinations',()=>{expect(BUSINESS_CONTACT).toEqual({whatsapp:null,instagram:null});});
 });
