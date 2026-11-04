@@ -19,3 +19,12 @@ Each is a self-contained text SVG image container holding an optimized WebP phot
 
 ## Interaction and performance
 The hero cards use CSS transforms and native touch scrolling. Card selection opens a full-screen image with a bounded expansion transition; details use a transform-driven drawer. Escape closes the modal, arrow controls switch pieces, search filters the actual catalogue, and reduced motion skips entrance and expansion animations. No WebGL, Three.js or continuous JavaScript rendering loop is used.
+
+## Spacing and motion polish
+- Balanced five-card fan; sixth piece remains available using arrows or swipe.
+- Native transform-only card expansion and font-ready AUREN intro; cancellation and reduced-motion support.
+- Product photographs bounded below their source width instead of enlarged across desktop screens; mobile keeps the full ring visible.
+- Added a continuous satin backdrop and feathered photo edges.
+- New generated asset: `public/editorial/satin-backdrop.svg`, optimized WebP embedded in a text SVG. Source: `generated_images/exec-6f61a487-dc27-4af3-9eda-93cb36145aaa.png`.
+- Image generation prompt: Clean empty dark oxblood burgundy satin, broad diagonal folds, realistic textile texture, quiet centre, wide landscape; no ring, jewelry, text or objects.
+- Verified 37 tests, TypeScript and production build; browser checked desktop and 390px mobile gallery and details.
