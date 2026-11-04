@@ -379,3 +379,10 @@ body:has(.runway-product .details-open) .runway-header.contrast .runway-header-l
 @keyframes ring-slide-in{from{transform:translate3d(calc(var(--slide-direction)*100vw),0,0)}to{transform:translate3d(0,0,0)}}
 @keyframes ring-slide-out{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(var(--slide-direction)*-100vw),0,0)}}
 @media(prefers-reduced-motion:reduce){.editorial-image-surface.has-previous .editorial-current,.editorial-image-surface .editorial-previous{animation:none}}
+
+/* Exactly one ring is rendered: exit fully, swap, then enter. */
+.editorial-image-surface .editorial-current{animation:none!important}.editorial-image-surface.motion-out .editorial-current{animation:single-ring-out .38s cubic-bezier(.4,0,.6,1) both!important}.editorial-image-surface.motion-in .editorial-current{animation:single-ring-in .42s cubic-bezier(.16,1,.3,1) both!important}
+@keyframes single-ring-out{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(var(--slide-direction)*-110vw),0,0)}}
+@keyframes single-ring-in{from{transform:translate3d(calc(var(--slide-direction)*110vw),0,0)}to{transform:translate3d(0,0,0)}}
+.product-image-wrap,.related-grid a>div,.atelier-preview,.tray-product-image{background:#350912 url('/editorial/satin-backdrop.svg') center/cover no-repeat!important}.product-image-link{display:grid;place-items:center;width:100%;height:100%}.product-image-wrap .product-image-link img{width:84%;height:84%;object-fit:contain}.product-number,.save-piece,.viewing-link{color:#f6e9dc}
+@media(prefers-reduced-motion:reduce){.editorial-image-surface.motion-out .editorial-current,.editorial-image-surface.motion-in .editorial-current{animation:none!important}}
