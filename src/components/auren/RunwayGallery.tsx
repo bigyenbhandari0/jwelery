@@ -12,7 +12,8 @@ export function EditorialStage({product,onChange,onClose,origin,standalone=false
  useLayoutEffect(()=>{
   const el=scene.current?.querySelector<HTMLElement>('.editorial-photo-frame');
   if(!el||typeof el.animate!=='function'||matchMedia('(prefers-reduced-motion: reduce)').matches){setOpening(false);return;}
-  // Move the complete photographic environment as one camera plane. Never fly a card across the viewport.
+  setOpening(true);
+  // Lock navigation while the entry animation settles.
   let live=true;const animation=el.animate([{transform:'translate3d(36px,0,0)',opacity:0},{transform:'translate3d(0,0,0)',opacity:1}],{duration:600,easing:'cubic-bezier(.22,.61,.36,1)'});
   void animation.finished.then(()=>{if(live)setOpening(false);}).catch(()=>{});
   return()=>{live=false;animation.cancel();};
