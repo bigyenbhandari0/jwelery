@@ -386,3 +386,6 @@ body:has(.runway-product .details-open) .runway-header.contrast .runway-header-l
 @keyframes single-ring-in{from{transform:translate3d(calc(var(--slide-direction)*110vw),0,0)}to{transform:translate3d(0,0,0)}}
 .product-image-wrap,.related-grid a>div,.atelier-preview,.tray-product-image{background:#350912 url('/editorial/satin-backdrop.svg') center/cover no-repeat!important}.product-image-link{display:grid;place-items:center;width:100%;height:100%}.product-image-wrap .product-image-link img{width:84%;height:84%;object-fit:contain}.product-number,.save-piece,.viewing-link{color:#f6e9dc}
 @media(prefers-reduced-motion:reduce){.editorial-image-surface.motion-out .editorial-current,.editorial-image-surface.motion-in .editorial-current{animation:none!important}}
+
+/* Route scroll resets must never animate through the outgoing collection. */
+html{scroll-behavior:auto;scrollbar-gutter:stable}.runway-product-hero{overflow:hidden;isolation:isolate}.runway-product .editorial-stage{height:100%}.runway-dialog{overscroll-behavior:contain}.product-image-link img{backface-visibility:hidden}
