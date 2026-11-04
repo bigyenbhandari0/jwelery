@@ -346,3 +346,17 @@ body:has(.runway-product .details-open) .runway-header.contrast .runway-header-l
 .editorial-details,.runway-menu,.runway-search-dialog{background:#f4e9e7;color:#321e24}
 @media(prefers-reduced-motion:reduce){.editorial-image-surface.has-previous .editorial-current,.editorial-image-surface .editorial-previous{animation:none}}
 :root{--paper:#f4e9e7;--ink:#321e24;--burgundy:#68152c}body{background:#f4e9e7;color:#321e24}.runway-hero,.boutique-header.runway-header,.brand-intro,.boutique-footer{color:#f5e9df}.runway-header.contrast{background:transparent}
+/* Exact 20px gaps account for each card's actual displayed width. */
+.runway-fan{--card-width:clamp(220px,19vw,360px);--card-gap:20px}
+.runway-card{--card-offset:calc(var(--distance)*(var(--card-width)*(1 - var(--depth)*.06) + var(--card-gap)));transform:translate3d(calc(-50% + var(--card-offset)),calc(var(--depth)*30px),0) scale(calc(1 - var(--depth)*.12))}
+@media(hover:hover){.runway-card:hover{transform:translate3d(calc(-50% + var(--card-offset)),calc(var(--depth)*30px - 12px),0) scale(calc(1 - var(--depth)*.12))}}
+/* A single full-bleed photograph: no separate surround, mask, or floating photo panel. */
+.editorial-photo-frame,.details-open .editorial-photo-frame{inset:0;left:0;top:0;width:100%;height:100%;aspect-ratio:auto;translate:none;mask-image:none;-webkit-mask-image:none;transform:none;transition:transform .8s cubic-bezier(.22,.61,.36,1)}
+.editorial-image-surface .editorial-photo-frame img{width:100%;height:100%;object-fit:cover;object-position:center 49%}
+.details-open .editorial-photo-frame{transform:translate3d(calc(var(--drawer-width)*.3),0,0)}
+.editorial-image-surface.has-previous .editorial-current{animation:clean-photo-in .7s ease both}.editorial-image-surface .editorial-previous{animation:clean-photo-out .7s ease both}
+@keyframes clean-photo-in{from{opacity:0}to{opacity:1}}@keyframes clean-photo-out{from{opacity:1}to{opacity:0}}
+@media(max-width:1000px){.runway-fan{--card-width:21vw;--card-gap:16px}}
+@media(max-width:600px){.runway-fan{--card-width:245px;--card-gap:16px}.editorial-image-surface .editorial-photo-frame img{object-fit:cover}.details-open .editorial-photo-frame{transform:translate3d(20vw,0,0)}}
+@media(prefers-reduced-motion:reduce){.editorial-image-surface.has-previous .editorial-current,.editorial-image-surface .editorial-previous{animation:none}.editorial-photo-frame{transition:none}}
+.editorial-image-surface>.editorial-photo-frame{left:0!important;top:0!important;translate:0 0!important;scale:1;rotate:0deg;width:100%;height:100%}
