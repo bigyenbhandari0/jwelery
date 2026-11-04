@@ -13,14 +13,14 @@ export const PRODUCTS = {
     id: "solitaire",
     name: "Atelier Solitaire",
     price: 0,
-    image: "/editorial/solitaire-satin.svg",
+    image: "/editorial/solitaire-cutout.svg",
     description: "A clear-centre solitaire with a stone-set band, shown in the accompanying studio film. An editorial demo design; materials and availability require confirmation.",
   },
   coeur: {
     id: "coeur",
     name: "Rosé Cœur",
     price: 485000,
-    image: "/editorial/coeur-satin.svg",
+    image: "/editorial/coeur-cutout.svg",
     description:
       "A heart-cut pink stone held in polished claws, flanked by pear-cut accents and a pavé-set shoulder.",
   },
@@ -28,7 +28,7 @@ export const PRODUCTS = {
     id: "marquise",
     name: "Marquise Noble",
     price: 362000,
-    image: "/editorial/marquise-satin.svg",
+    image: "/editorial/marquise-cutout.svg",
     description:
       "A pointed marquise stone framed by hand-pierced filigree scrolls — an heirloom silhouette, finely detailed.",
   },
@@ -36,7 +36,7 @@ export const PRODUCTS = {
     id: "eternity",
     name: "Eternity",
     price: 298000,
-    image: "/editorial/eternity-satin.svg",
+    image: "/editorial/eternity-cutout.svg",
     description:
       "A substantial silver ring with a deep black square face and a single clear stone set at its centre. Engraved shoulders, weighty and precise.",
   },
@@ -44,14 +44,14 @@ export const PRODUCTS = {
     id: "band",
     name: "Infinite Band",
     price: 215000,
-    image: "/editorial/band-satin.svg",
+    image: "/editorial/band-cutout.svg",
     description: "A continuous circle of round brilliant stones in a fine shared-claw setting.",
   },
   bordeaux: {
     id: "bordeaux",
     name: "Bordeaux Halo",
     price: 412000,
-    image: "/editorial/bordeaux-satin.svg",
+    image: "/editorial/bordeaux-cutout.svg",
     description: "A deep red oval stone encircled by a halo of brilliants on a pavé band.",
   },
 } satisfies Record<string, Product>;
