@@ -323,3 +323,17 @@ body:has(.runway-product .details-open) .runway-header.contrast .runway-header-l
 @keyframes runway-breathe{0%,100%{transform:translate3d(0,0,0) scale(1.025)}50%{transform:translate3d(0,-5px,0) scale(1.025)}}
 @media(hover:hover){.product-card img,.related-grid img{transition:transform .9s cubic-bezier(.22,.61,.36,1)}.product-card:hover img,.related-grid a:hover img{transform:scale(1.035)}}
 @media(prefers-reduced-motion:reduce){.runway-card-drift,.editorial-image-surface.has-previous .editorial-current,.editorial-image-surface .editorial-previous{animation:none}.runway-card img,.product-card img,.related-grid img{transition:none}}
+/* Air between the silhouettes; a visible, slow levitation on each card. */
+.runway-fan{--card-width:clamp(180px,17vw,310px);--card-step:calc(var(--card-width)*.94 + 22px)}
+.runway-card{box-shadow:0 12px 28px #4b152514;transition:transform .8s cubic-bezier(.22,.61,.36,1),box-shadow .8s ease}
+.runway-hero.arrived .runway-card{animation:runway-card-enter 1.05s cubic-bezier(.22,.61,.36,1) var(--delay) both,card-levitate 5.5s ease-in-out calc(1.2s + var(--delay)) infinite}
+@keyframes card-levitate{0%,100%{translate:0 0}50%{translate:0 -14px}}
+.runway-card-drift{animation:none;transform:scale(1.025)}
+@media(hover:hover){.runway-card:hover{transform:translate3d(calc(-50% + var(--distance)*var(--card-step)),calc(var(--depth)*30px - 16px),0) scale(calc(1 - var(--depth)*.12));box-shadow:0 24px 40px #4b152530}.runway-card:hover img{transform:scale(1.075)}}
+.runway-card:focus-visible{outline:2px solid #8e465d;outline-offset:5px}
+@media(max-width:1000px){.runway-fan{--card-width:22vw;--card-step:calc(var(--card-width)*.94 + 16px)}}
+@media(max-width:600px){.runway-fan{--card-width:210px;--card-step:214px}}
+/* A quiet tonal surround avoids mismatched folds behind the product photograph. */
+.editorial-image-surface{background:#19050b;background-image:radial-gradient(ellipse at center,#39101e 0%,#200810 55%,#130407 100%)}
+.editorial-photo-frame{mask-image:linear-gradient(to right,transparent,#000 21%,#000 79%,transparent),linear-gradient(to bottom,transparent,#000 23%,#000 77%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 21%,#000 79%,transparent),linear-gradient(to bottom,transparent,#000 23%,#000 77%,transparent);mask-composite:intersect;-webkit-mask-composite:source-in}
+@media(prefers-reduced-motion:reduce){.runway-hero.arrived .runway-card{animation:none}.runway-card:hover{transform:translate3d(calc(-50% + var(--distance)*var(--card-step)),calc(var(--depth)*30px),0) scale(calc(1 - var(--depth)*.12))}}
