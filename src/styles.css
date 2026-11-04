@@ -372,3 +372,10 @@ body:has(.runway-product .details-open) .runway-header.contrast .runway-header-l
 /* Red satin belongs to the stage, independently of the transparent jewelry. */
 .editorial-stage,.editorial-image-surface,.runway-card,.photo-stage{background:#350912 url('/editorial/satin-backdrop.svg') center/cover no-repeat}.runway-card>span{color:#f6e9dc}.photo-caption{color:#f6e9dc}
 .runway-hero,.boutique-header.runway-header,.brand-intro{background:#290c16;color:#f6e9dc}.runway-heading h1{color:#f6e9dc}.runway-heading>p,.runway-scroll,.runway-replay,.runway-navigation{color:#d5bfc2}.runway-header .search-trigger,.runway-header .header-actions>.icon-button,.runway-navigation button{border-color:#b58d9366;color:#f6e9dc}.runway-navigation button{background:transparent}.runway-header.contrast{background:transparent}.boutique-footer{background:#290c16;color:#f6e9dc}.button-dark{background:#752d43;border-color:#752d43}.text-link{ text-decoration-color:#a87777 }
+
+/* One directional, decoded-image slide. The satin stays still. */
+.editorial-image-surface .editorial-photo-frame{overflow:hidden!important}.editorial-image-surface .editorial-photo-frame img{animation:none;backface-visibility:hidden;will-change:transform;filter:none}
+.editorial-image-surface.has-previous .editorial-current{animation:ring-slide-in .7s cubic-bezier(.22,.61,.36,1) both}.editorial-image-surface .editorial-previous{animation:ring-slide-out .7s cubic-bezier(.22,.61,.36,1) both}
+@keyframes ring-slide-in{from{transform:translate3d(calc(var(--slide-direction)*100vw),0,0)}to{transform:translate3d(0,0,0)}}
+@keyframes ring-slide-out{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(var(--slide-direction)*-100vw),0,0)}}
+@media(prefers-reduced-motion:reduce){.editorial-image-surface.has-previous .editorial-current,.editorial-image-surface .editorial-previous{animation:none}}
