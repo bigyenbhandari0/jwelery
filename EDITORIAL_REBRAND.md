@@ -28,3 +28,8 @@ The hero cards use CSS transforms and native touch scrolling. Card selection ope
 - New generated asset: `public/editorial/satin-backdrop.svg`, optimized WebP embedded in a text SVG. Source: `generated_images/exec-6f61a487-dc27-4af3-9eda-93cb36145aaa.png`.
 - Image generation prompt: Clean empty dark oxblood burgundy satin, broad diagonal folds, realistic textile texture, quiet centre, wide landscape; no ring, jewelry, text or objects.
 - Verified 37 tests, TypeScript and production build; browser checked desktop and 390px mobile gallery and details.
+
+## Transparent product assets
+Built-in image generation, background-extraction edits of all six existing satin photos. Prompt: Remove only burgundy fabric and cast shadows; preserve exact ring design, viewing angle, gemstones, metal and proportions; full ring with transparent padding; actual alpha PNG.
+PNG masters: `public/editorial/{coeur,marquise,eternity,band,bordeaux,solitaire}-cutout.png`. Browser assets: same names ending `-cutout.svg`, containing optimized transparent WebP for caching and source-only publication. The source PNGs remain available in the working project and generated image outputs.
+All cards and product galleries use the same cutout; the full-screen viewer contains the complete jewelry within viewport height and width. Ivory browsing surfaces, burgundy viewer, champagne borders.
