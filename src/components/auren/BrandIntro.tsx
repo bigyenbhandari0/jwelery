@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 const KEY='auren-runway-welcome-v1';
 /** Font-ready, compositor-driven handoff. Geometry is measured once before motion. */
 export function BrandIntro({replay=false}:{replay?:boolean}){
- const [phase,setPhase]=useState<'playing'|'leaving'|'hidden'>('playing');
+ const [phase,setPhase]=useState<'playing'|'leaving'|'revealing'|'hidden'>('playing');
  const enter=useRef<HTMLButtonElement>(null),wordmark=useRef<HTMLParagraphElement>(null),cover=useRef<HTMLDivElement>(null);
  const release=useRef<()=>void>(()=>{}),timers=useRef<ReturnType<typeof setTimeout>[]>([]),animations=useRef<Animation[]>([]);
  const finishIntro=()=>{timers.current.forEach(clearTimeout);timers.current=[];animations.current.forEach(a=>a.cancel());animations.current=[];document.documentElement.setAttribute('data-auren-intro','skip');release.current();setPhase('hidden');window.dispatchEvent(new Event('auren-intro-complete'));};
@@ -23,7 +23,8 @@ export function BrandIntro({replay=false}:{replay?:boolean}){
    layer.style.setProperty('--intro-x',`${x}px`);layer.style.setProperty('--intro-y',`${y}px`);layer.style.setProperty('--intro-scale',String(scale));layer.setAttribute('data-ready','true');
    const native=typeof source.animate==='function';if(native){layer.setAttribute('data-native','true');animations.current.push(source.animate([{opacity:0,transform:'translate3d(0,6px,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:550,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'}));}
    timers.current.push(setTimeout(()=>{if(!live)return;remember();setPhase('leaving');if(native)animations.current.push(source.animate([{transform:'translate3d(0,0,0) scale(1)'},{transform:`translate3d(${x}px,${y}px,0) scale(${scale})`}],{duration:800,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}));},1100));
-   timers.current.push(setTimeout(finishIntro,2000));
+   timers.current.push(setTimeout(()=>{if(!live)return;document.documentElement.setAttribute('data-auren-intro','handoff');setPhase('revealing');},1900));
+   timers.current.push(setTimeout(finishIntro,2350));
   };
   if(fonts?.ready){timers.current.push(setTimeout(begin,500));void fonts.ready.then(begin).catch(begin);}else begin();
   const changed=()=>{if(preference.matches){remember();finishIntro();}};const resized=()=>{remember();finishIntro();};preference.addEventListener('change',changed);window.addEventListener('resize',resized,{once:true});
